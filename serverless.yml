@@ -1,4 +1,4 @@
-service: laravel
+service: mirror-match
 
 # Set your team ID if you are using Bref Cloud (https://bref.sh/cloud)
 #bref:
@@ -7,12 +7,11 @@ service: laravel
 provider:
     name: aws
     # The AWS region in which to deploy (us-east-1 is the default)
-    region: us-east-1
+    region: eu-central-1
     # Environment variables
     environment:
         APP_ENV: ${param:appEnv}
-        # Replace with a secret variable: https://bref.sh/docs/environment/variables#secrets
-        APP_KEY: 'base64:aqIOr0nFlPj0RtsUR4MTtIu4EBWohrOr9qcw0xVZE6c='
+        APP_KEY: ${ssm:/mirror-match/${sls:stage}/APP_KEY}
         APP_DEBUG: ${param:debug}
         # Uncomment the line below if you uncomment `constructs.website`
         #APP_URL: ${construct:website.url}
@@ -23,12 +22,8 @@ provider:
         LOG_CHANNEL: stderr
         LOG_STDERR_FORMATTER: Bref\Monolog\CloudWatchFormatter
         # Database configuration: https://bref.sh/docs/environment/database
-        #DB_CONNECTION: mysql
-        #DB_HOST: your-database-endpoint.rds.amazonaws.com
-        #DB_PORT: 3306
-        #DB_DATABASE: laravel
-        #DB_USERNAME: root
-        #DB_PASSWORD: ${ssm:/my-app/dev/db-password}
+        DB_CONNECTION: pgsql
+        DB_URL: ${ssm:/mirror-match/${sls:stage}/DB_URL}
         # Queue configuration: https://bref.sh/docs/laravel/queues
         #QUEUE_CONNECTION: sqs
         #SQS_QUEUE: ${construct:jobs.queueUrl}
@@ -41,7 +36,7 @@ functions:
     # This function runs the Laravel website/API
     web:
         handler: public/index.php
-        runtime: php-84-fpm
+        runtime: php-82-fpm
         timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
         events:
             - httpApi: '*'
@@ -49,7 +44,7 @@ functions:
     # This function lets us run artisan commands in Lambda
     artisan:
         handler: artisan
-        runtime: php-84-console
+        runtime: php-82-console
         timeout: 720 # in seconds
         # Uncomment to also run the scheduler every minute
         #events:
@@ -57,14 +52,14 @@ functions:
         #          rate: rate(1 minute)
         #          input: '"schedule:run"'
 
-constructs:
+constructs: {}
     # SQS queue for Laravel jobs
     # See https://bref.sh/docs/laravel/queues
     #jobs:
     #    type: queue
     #    worker:
     #        handler: Bref\LaravelBridge\Queue\QueueHandler
-    #        runtime: php-84
+    #        runtime: php-82
     #        timeout: 60 # seconds
 
     # S3 bucket for file storage
@@ -98,11 +93,12 @@ params:
         # Laravel's APP_ENV. See https://bref.sh/docs/laravel/environments
         appEnv: ${sls:stage}
         debug: 0
+        maintenance: null
     prod:
-        # Laravel expects "production" for `app()->isProduction()` to work correctly
         appEnv: production
     dev:
-        debug: 1 # Enable debug in `dev`
+        debug: 1
+
 
 package:
     # Files and directories to exclude from deployment

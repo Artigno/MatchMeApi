@@ -11,7 +11,27 @@
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
+        "serverless": "^4.36.1",
+        "serverless-lift": "^1.36.0",
         "tailwindcss": "^4.0.0",
         "vite": "^7.0.7"
-    }
+    },
+    "name": "api",
+    "version": "1.0.0",
+    "description": "Backend API dla aplikacji MirrorMatch — mobilnej aplikacji do zarządzania garderobą i automatycznego generowania kart wystawienia ubrań na sprzedaż.",
+    "main": "vite.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Artigno/MatchMeApi.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Artigno/MatchMeApi/issues"
+    },
+    "homepage": "https://github.com/Artigno/MatchMeApi#readme"
 }
