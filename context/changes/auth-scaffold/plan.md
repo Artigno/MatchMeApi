@@ -298,9 +298,9 @@ Brak — F-01 to integracja biblioteki, nie logika domenowa. Smoke test w Featur
 
 #### Automated
 
-- [x] 1.1 `composer show laravel/sanctum` zwraca wersję 3.x
-- [x] 1.2 `config/sanctum.php` istnieje, `expiration: null`
-- [x] 1.3 `app/Models/User.php` importuje i używa `HasApiTokens`
+- [x] 1.1 `composer show laravel/sanctum` zwraca wersję 3.x — 5f2f0d8
+- [x] 1.2 `config/sanctum.php` istnieje, `expiration: null` — 5f2f0d8
+- [x] 1.3 `app/Models/User.php` importuje i używa `HasApiTokens` — 5f2f0d8
 
 #### Manual
 
@@ -310,9 +310,9 @@ Brak — F-01 to integracja biblioteki, nie logika domenowa. Smoke test w Featur
 
 #### Automated
 
-- [ ] 2.1 `php artisan migrate --pretend` bez błędu
-- [ ] 2.2 `php artisan migrate` bez błędu
-- [ ] 2.3 `php artisan migrate:status` — obie migracje `Ran`
+- [x] 2.1 `php artisan migrate --pretend` bez błędu
+- [x] 2.2 `php artisan migrate` bez błędu
+- [x] 2.3 `php artisan migrate:status` — obie migracje `Ran`
 
 #### Manual
 
