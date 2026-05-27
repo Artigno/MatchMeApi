@@ -323,12 +323,12 @@ Brak — F-01 to integracja biblioteki, nie logika domenowa. Smoke test w Featur
 
 #### Automated
 
-- [x] 3.1 `php artisan test --filter=SanctumSmokeTest` — 3 testy PASS
-- [x] 3.2 `php artisan test` — cały suite PASS
-- [x] 3.3 `./vendor/bin/pint --test` — PASS
+- [x] 3.1 `php artisan test --filter=SanctumSmokeTest` — 3 testy PASS — fd7a94e
+- [x] 3.2 `php artisan test` — cały suite PASS — fd7a94e
+- [x] 3.3 `./vendor/bin/pint --test` — PASS — fd7a94e
 
 #### Manual
 
-- [x] 3.4 `curl /api/ping` bez tokena → 401
-- [x] 3.5 `curl /api/ping` z ważnym tokenem → 200 z `user_id`
-- [x] 3.6 `curl /api/ping` z wygasłym tokenem → 401
+- [x] 3.4 `curl /api/ping` bez tokena → 401 — fd7a94e
+- [x] 3.5 `curl /api/ping` z ważnym tokenem → 200 z `user_id` — fd7a94e
+- [x] 3.6 `curl /api/ping` z wygasłym tokenem → 401 — fd7a94e
