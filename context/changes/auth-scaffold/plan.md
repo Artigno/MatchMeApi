@@ -304,31 +304,31 @@ Brak — F-01 to integracja biblioteki, nie logika domenowa. Smoke test w Featur
 
 #### Manual
 
-- [ ] 1.4 Ręczna weryfikacja `config/sanctum.php` i `User.php`
+- [x] 1.4 Ręczna weryfikacja `config/sanctum.php` i `User.php`
 
 ### Phase 2: Schema
 
 #### Automated
 
-- [x] 2.1 `php artisan migrate --pretend` bez błędu
-- [x] 2.2 `php artisan migrate` bez błędu
-- [x] 2.3 `php artisan migrate:status` — obie migracje `Ran`
+- [x] 2.1 `php artisan migrate --pretend` bez błędu — 7296025
+- [x] 2.2 `php artisan migrate` bez błędu — 7296025
+- [x] 2.3 `php artisan migrate:status` — obie migracje `Ran` — 7296025
 
 #### Manual
 
-- [ ] 2.4 Tabela `personal_access_tokens` istnieje z `expires_at`
-- [ ] 2.5 `User::factory()->create(['name' => null])` — brak błędu DB
+- [x] 2.4 Tabela `personal_access_tokens` istnieje z `expires_at`
+- [x] 2.5 `User::factory()->create(['name' => null])` — brak błędu DB
 
 ### Phase 3: Route scaffold + smoke test
 
 #### Automated
 
-- [ ] 3.1 `php artisan test --filter=SanctumSmokeTest` — 3 testy PASS
-- [ ] 3.2 `php artisan test` — cały suite PASS
-- [ ] 3.3 `./vendor/bin/pint --test` — PASS
+- [x] 3.1 `php artisan test --filter=SanctumSmokeTest` — 3 testy PASS
+- [x] 3.2 `php artisan test` — cały suite PASS
+- [x] 3.3 `./vendor/bin/pint --test` — PASS
 
 #### Manual
 
-- [ ] 3.4 `curl /api/ping` bez tokena → 401
-- [ ] 3.5 `curl /api/ping` z ważnym tokenem → 200 z `user_id`
-- [ ] 3.6 `curl /api/ping` z wygasłym tokenem → 401
+- [x] 3.4 `curl /api/ping` bez tokena → 401
+- [x] 3.5 `curl /api/ping` z ważnym tokenem → 200 z `user_id`
+- [x] 3.6 `curl /api/ping` z wygasłym tokenem → 401
