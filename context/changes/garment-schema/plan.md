@@ -212,10 +212,10 @@ Brak — F-02 to schema + model, nie logika domenowa.
 
 #### Automated
 
-- [x] 2.1 `php artisan test --filter=GarmentSchemaTest` — 2 testy PASS
-- [x] 2.2 `php artisan test` — cały suite PASS
-- [x] 2.3 `./vendor/bin/pint --test` — PASS
+- [x] 2.1 `php artisan test --filter=GarmentSchemaTest` — 2 testy PASS — 16fe2b0
+- [x] 2.2 `php artisan test` — cały suite PASS — 16fe2b0
+- [x] 2.3 `./vendor/bin/pint --test` — PASS — 16fe2b0
 
 #### Manual
 
-- [x] 2.4 Brak regresji w `SanctumSmokeTest`
+- [x] 2.4 Brak regresji w `SanctumSmokeTest` — 16fe2b0

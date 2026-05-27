@@ -1,7 +1,7 @@
 ---
 change_id: garment-schema
 title: Add garments migration with listing card fields and soft delete (F-02)
-status: implementing
+status: implemented
 created: 2026-05-27
 updated: 2026-05-27
 archived_at: null
