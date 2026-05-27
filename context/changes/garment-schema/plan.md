@@ -199,23 +199,23 @@ Brak — F-02 to schema + model, nie logika domenowa.
 
 #### Automated
 
-- [x] 1.1 `php artisan migrate --pretend` bez błędu
-- [x] 1.2 `php artisan migrate` bez błędu
-- [x] 1.3 `php artisan migrate:status` — migracja `garments` jako `Ran`
+- [x] 1.1 `php artisan migrate --pretend` bez błędu — e1836e5
+- [x] 1.2 `php artisan migrate` bez błędu — e1836e5
+- [x] 1.3 `php artisan migrate:status` — migracja `garments` jako `Ran` — e1836e5
 
 #### Manual
 
-- [x] 1.4 Tabela `garments` istnieje z kolumną `deleted_at`
-- [x] 1.5 `Garment::factory()->create(['category' => null])` — brak błędu DB
+- [x] 1.4 Tabela `garments` istnieje z kolumną `deleted_at` — e1836e5
+- [x] 1.5 `Garment::factory()->create(['category' => null])` — brak błędu DB — e1836e5
 
 ### Phase 2: Smoke test + style
 
 #### Automated
 
-- [ ] 2.1 `php artisan test --filter=GarmentSchemaTest` — 2 testy PASS
-- [ ] 2.2 `php artisan test` — cały suite PASS
-- [ ] 2.3 `./vendor/bin/pint --test` — PASS
+- [x] 2.1 `php artisan test --filter=GarmentSchemaTest` — 2 testy PASS
+- [x] 2.2 `php artisan test` — cały suite PASS
+- [x] 2.3 `./vendor/bin/pint --test` — PASS
 
 #### Manual
 
-- [ ] 2.4 Brak regresji w `SanctumSmokeTest`
+- [x] 2.4 Brak regresji w `SanctumSmokeTest`
