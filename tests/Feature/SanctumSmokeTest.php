@@ -28,12 +28,12 @@ class SanctumSmokeTest extends TestCase
             ->assertUnauthorized();
     }
 
-    public function test_valid_refresh_token_returns_200(): void
+    public function test_refresh_token_rejected_on_business_routes(): void
     {
         $user = User::factory()->create(['name' => null]);
         $token = $user->createToken('refresh', ['refresh'], now()->addDays(30))->plainTextToken;
 
         $this->getJson('/api/ping', ['Authorization' => 'Bearer '.$token])
-            ->assertOk();
+            ->assertForbidden();
     }
 }

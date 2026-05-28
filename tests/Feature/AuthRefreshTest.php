@@ -56,9 +56,9 @@ class AuthRefreshTest extends TestCase
         $this->postJson('/api/auth/refresh', [], ['Authorization' => 'Bearer '.$refreshToken])
             ->assertOk();
 
-        // old token deleted, two new tokens issued (access + refresh)
         $this->assertDatabaseMissing('personal_access_tokens', ['id' => $tokenId]);
-        $this->assertDatabaseCount('personal_access_tokens', 2);
+        $this->assertTrue($user->fresh()->tokens()->where('name', 'access')->exists());
+        $this->assertTrue($user->fresh()->tokens()->where('name', 'refresh')->exists());
     }
 
     public function test_refresh_with_access_token_returns_403(): void

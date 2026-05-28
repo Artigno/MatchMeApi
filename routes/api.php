@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
 Route::get('/up', fn () => response()->json(['status' => 'ok']));
 
 Route::prefix('auth')->group(function () {
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('refresh', [AuthController::class, 'refresh']);
@@ -14,7 +15,7 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(function () {
     Route::get('/ping', fn () => response()->json(['status' => 'ok', 'user_id' => auth()->id()]));
 
     // S-02: ai-classification endpoints here

@@ -1,9 +1,9 @@
 ---
 change_id: auth-refresh
 title: Token refresh endpoint — access/refresh token pair rotation
-status: implementing
+status: impl_reviewed
 created: 2026-05-27
-updated: 2026-05-27
+updated: 2026-05-28
 archived_at: null
 ---
 

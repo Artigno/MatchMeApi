@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -43,13 +44,19 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid token type.'], 403);
         }
 
-        $user->currentAccessToken()->delete();
+        return DB::transaction(function () use ($user) {
+            $user->currentAccessToken()->delete();
 
-        return response()->json($this->issueTokenPair($user), 200);
+            return response()->json($this->issueTokenPair($user), 200);
+        });
     }
 
     public function logout(Request $request): JsonResponse
     {
+        if (! $request->user()->tokenCan('access')) {
+            return response()->json(['message' => 'Invalid token type.'], 403);
+        }
+
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out.'], 200);
