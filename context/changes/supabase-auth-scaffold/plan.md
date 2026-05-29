@@ -343,9 +343,9 @@ None — business logic is thin (JWT decode, user find-or-create). Feature tests
 
 #### Automated
 
-- [x] 4.1 `php artisan test` — full suite PASS
-- [x] 4.2 `./vendor/bin/pint --test` — PASS
+- [x] 4.1 `php artisan test` — full suite PASS — 20bf4bf
+- [x] 4.2 `./vendor/bin/pint --test` — PASS — 20bf4bf
 
 #### Manual
 
-- [x] 4.3 `POST /api/auth/login` returns 404
+- [x] 4.3 `POST /api/auth/login` returns 404 — 20bf4bf
