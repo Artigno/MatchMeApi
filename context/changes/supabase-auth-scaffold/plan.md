@@ -307,25 +307,25 @@ None — business logic is thin (JWT decode, user find-or-create). Feature tests
 
 #### Automated
 
-- [x] 1.1 `php artisan migrate --pretend` shows add_supabase_id_to_users_table
-- [x] 1.2 `php artisan migrate` applies without error
-- [x] 1.3 `php artisan migrate:status` — migration Ran
-- [x] 1.4 `php artisan test` — no regressions
+- [x] 1.1 `php artisan migrate --pretend` shows add_supabase_id_to_users_table — 10c560c
+- [x] 1.2 `php artisan migrate` applies without error — 10c560c
+- [x] 1.3 `php artisan migrate:status` — migration Ran — 10c560c
+- [x] 1.4 `php artisan test` — no regressions — 10c560c
 
 #### Manual
 
-- [x] 1.5 `supabase_id` column exists in users table with unique index
+- [x] 1.5 `supabase_id` column exists in users table with unique index — 10c560c
 
 ### Phase 2: JWT verifier service
 
 #### Automated
 
-- [ ] 2.1 `composer require firebase/php-jwt` succeeds
-- [ ] 2.2 `php artisan test` — no regressions
+- [x] 2.1 `composer require firebase/php-jwt` succeeds
+- [x] 2.2 `php artisan test` — no regressions
 
 #### Manual
 
-- [ ] 2.3 `app(\App\Contracts\SupabaseJwtVerifier::class)` resolves to real implementation in tinker
+- [x] 2.3 `app(\App\Contracts\SupabaseJwtVerifier::class)` resolves to real implementation in tinker
 
 ### Phase 3: Exchange endpoint + tests
 

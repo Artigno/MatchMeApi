@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
+use App\Contracts\SupabaseJwtVerifier;
+use App\Services\SupabaseJwtVerifier as SupabaseJwtVerifierService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->bind(SupabaseJwtVerifier::class, SupabaseJwtVerifierService::class);
     }
 
     /**
