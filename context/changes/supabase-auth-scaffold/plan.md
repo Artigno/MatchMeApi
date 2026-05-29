@@ -331,21 +331,21 @@ None — business logic is thin (JWT decode, user find-or-create). Feature tests
 
 #### Automated
 
-- [x] 3.1 `php artisan test --filter=SupabaseExchangeTest` — 4 tests PASS
-- [x] 3.2 `php artisan test` — full suite PASS
-- [x] 3.3 `./vendor/bin/pint --test` — PASS
+- [x] 3.1 `php artisan test --filter=SupabaseExchangeTest` — 4 tests PASS — 136635e
+- [x] 3.2 `php artisan test` — full suite PASS — 136635e
+- [x] 3.3 `./vendor/bin/pint --test` — PASS — 136635e
 
 #### Manual
 
-- [x] 3.4 Real Supabase JWT → POST /api/auth/supabase/exchange → valid Sanctum token pair returned
+- [x] 3.4 Real Supabase JWT → POST /api/auth/supabase/exchange → valid Sanctum token pair returned — 136635e
 
 ### Phase 4: Remove password-based login
 
 #### Automated
 
-- [ ] 4.1 `php artisan test` — full suite PASS
-- [ ] 4.2 `./vendor/bin/pint --test` — PASS
+- [x] 4.1 `php artisan test` — full suite PASS
+- [x] 4.2 `./vendor/bin/pint --test` — PASS
 
 #### Manual
 
-- [ ] 4.3 `POST /api/auth/login` returns 404
+- [x] 4.3 `POST /api/auth/login` returns 404

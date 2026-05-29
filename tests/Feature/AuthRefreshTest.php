@@ -10,30 +10,6 @@ class AuthRefreshTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_login_returns_access_and_refresh_tokens(): void
-    {
-        $user = User::factory()->create(['password' => bcrypt('secret')]);
-
-        $response = $this->postJson('/api/auth/login', [
-            'email' => $user->email,
-            'password' => 'secret',
-        ]);
-
-        $response->assertOk()
-            ->assertJsonStructure(['access_token', 'refresh_token', 'token_type', 'expires_in'])
-            ->assertJsonFragment(['token_type' => 'Bearer']);
-    }
-
-    public function test_login_fails_with_wrong_password(): void
-    {
-        $user = User::factory()->create(['password' => bcrypt('secret')]);
-
-        $this->postJson('/api/auth/login', [
-            'email' => $user->email,
-            'password' => 'wrong',
-        ])->assertUnprocessable();
-    }
-
     public function test_refresh_with_valid_refresh_token_returns_new_pair(): void
     {
         $user = User::factory()->create();
