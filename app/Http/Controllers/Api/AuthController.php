@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\IssuesTokenPairs;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -12,9 +13,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    private const ACCESS_TTL_MINUTES = 15;
-
-    private const REFRESH_TTL_DAYS = 30;
+    use IssuesTokenPairs;
 
     public function login(Request $request): JsonResponse
     {
@@ -60,27 +59,5 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out.'], 200);
-    }
-
-    private function issueTokenPair(User $user): array
-    {
-        $accessToken = $user->createToken(
-            'access',
-            ['access'],
-            now()->addMinutes(self::ACCESS_TTL_MINUTES)
-        );
-
-        $refreshToken = $user->createToken(
-            'refresh',
-            ['refresh'],
-            now()->addDays(self::REFRESH_TTL_DAYS)
-        );
-
-        return [
-            'access_token' => $accessToken->plainTextToken,
-            'refresh_token' => $refreshToken->plainTextToken,
-            'token_type' => 'Bearer',
-            'expires_in' => self::ACCESS_TTL_MINUTES * 60,
-        ];
     }
 }

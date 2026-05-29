@@ -320,24 +320,24 @@ None — business logic is thin (JWT decode, user find-or-create). Feature tests
 
 #### Automated
 
-- [x] 2.1 `composer require firebase/php-jwt` succeeds
-- [x] 2.2 `php artisan test` — no regressions
+- [x] 2.1 `composer require firebase/php-jwt` succeeds — cb9fccc
+- [x] 2.2 `php artisan test` — no regressions — cb9fccc
 
 #### Manual
 
-- [x] 2.3 `app(\App\Contracts\SupabaseJwtVerifier::class)` resolves to real implementation in tinker
+- [x] 2.3 `app(\App\Contracts\SupabaseJwtVerifier::class)` resolves to real implementation in tinker — cb9fccc
 
 ### Phase 3: Exchange endpoint + tests
 
 #### Automated
 
-- [ ] 3.1 `php artisan test --filter=SupabaseExchangeTest` — 4 tests PASS
-- [ ] 3.2 `php artisan test` — full suite PASS
-- [ ] 3.3 `./vendor/bin/pint --test` — PASS
+- [x] 3.1 `php artisan test --filter=SupabaseExchangeTest` — 4 tests PASS
+- [x] 3.2 `php artisan test` — full suite PASS
+- [x] 3.3 `./vendor/bin/pint --test` — PASS
 
 #### Manual
 
-- [ ] 3.4 Real Supabase JWT → POST /api/auth/supabase/exchange → valid Sanctum token pair returned
+- [x] 3.4 Real Supabase JWT → POST /api/auth/supabase/exchange → valid Sanctum token pair returned
 
 ### Phase 4: Remove password-based login
 
