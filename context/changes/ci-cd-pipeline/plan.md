@@ -273,16 +273,16 @@ None — no application logic; workflow file is declarative YAML.
 
 #### Automated
 
-- [x] 2.1 `.github/workflows/deploy.yml` exists
-- [x] 2.2 Valid YAML — `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"`
-- [x] 2.3 Workflow defines `test`, `deploy-dev`, `deploy-prod` jobs
-- [x] 2.4 `deploy-dev` has `needs: test` + `if: github.event_name == 'pull_request'`
-- [x] 2.5 `deploy-prod` has `needs: test` + `if: github.ref == 'refs/heads/main' && github.event_name == 'push'`
-- [x] 2.6 Both deploy jobs end with `serverless bref:cli --args="migrate --force"` step
+- [x] 2.1 `.github/workflows/deploy.yml` exists — 9a99e89
+- [x] 2.2 Valid YAML — `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"` — 9a99e89
+- [x] 2.3 Workflow defines `test`, `deploy-dev`, `deploy-prod` jobs — 9a99e89
+- [x] 2.4 `deploy-dev` has `needs: test` + `if: github.event_name == 'pull_request'` — 9a99e89
+- [x] 2.5 `deploy-prod` has `needs: test` + `if: github.ref == 'refs/heads/main' && github.event_name == 'push'` — 9a99e89
+- [x] 2.6 Both deploy jobs end with `serverless bref:cli --args="migrate --force"` step — 9a99e89
 
 #### Manual
 
-- [x] 2.7 Workflow file reviewed — all three jobs structurally correct
+- [x] 2.7 Workflow file reviewed — all three jobs structurally correct — 9a99e89
 
 ### Phase 3: Wire GitHub Actions Secrets
 
