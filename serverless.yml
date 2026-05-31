@@ -24,6 +24,9 @@ provider:
         # Database configuration: https://bref.sh/docs/environment/database
         DB_CONNECTION: pgsql
         DB_URL: ${ssm:/mirror-match/${sls:stage}/DB_URL}
+        OPENROUTER_API_KEY: ${ssm:/mirror-match/${sls:stage}/OPENROUTER_API_KEY}
+        OPENROUTER_BASE_URL: https://openrouter.ai/api/v1
+        AI_VISION_MODEL: google/gemini-2.0-flash
         # Queue configuration: https://bref.sh/docs/laravel/queues
         #QUEUE_CONNECTION: sqs
         #SQS_QUEUE: ${construct:jobs.queueUrl}

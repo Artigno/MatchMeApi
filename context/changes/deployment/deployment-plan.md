@@ -86,6 +86,17 @@ Deploying the Laravel 12 / PHP 8.2 MirrorMatch API to AWS Lambda using Bref.sh v
     --value "$(php artisan key:generate --show)" \
     --type SecureString --region eu-central-1
 
+  # OpenRouter API key (Gemini 2.0 Flash via OpenRouter — używany przez S-02 ai-classification)
+  aws ssm put-parameter \
+    --name "/mirror-match/dev/OPENROUTER_API_KEY" \
+    --value "YOUR_OPENROUTER_KEY" \
+    --type SecureString --region eu-central-1
+
+  aws ssm put-parameter \
+    --name "/mirror-match/prod/OPENROUTER_API_KEY" \
+    --value "YOUR_OPENROUTER_KEY" \
+    --type SecureString --region eu-central-1
+
   # DB_URL — full PostgreSQL connection string (from Neon dashboard, use pooled URL)
   aws ssm put-parameter \
     --name "/mirror-match/dev/DB_URL" \
