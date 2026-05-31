@@ -262,27 +262,27 @@ None — no application logic; workflow file is declarative YAML.
 
 #### Automated
 
-- [x] 1.1 `git ls-files package-lock.json` outputs `package-lock.json`
-- [x] 1.2 `cat .gitignore | grep node_modules` confirms `node_modules` excluded
+- [x] 1.1 `git ls-files package-lock.json` outputs `package-lock.json` — accd8b7
+- [x] 1.2 `cat .gitignore | grep node_modules` confirms `node_modules` excluded — accd8b7
 
 #### Manual
 
-- [x] 1.3 `git log --oneline | head -3` shows commit including `package-lock.json`
+- [x] 1.3 `git log --oneline | head -3` shows commit including `package-lock.json` — accd8b7
 
 ### Phase 2: Create GitHub Actions workflow
 
 #### Automated
 
-- [ ] 2.1 `.github/workflows/deploy.yml` exists
-- [ ] 2.2 Valid YAML — `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"`
-- [ ] 2.3 Workflow defines `test`, `deploy-dev`, `deploy-prod` jobs
-- [ ] 2.4 `deploy-dev` has `needs: test` + `if: github.event_name == 'pull_request'`
-- [ ] 2.5 `deploy-prod` has `needs: test` + `if: github.ref == 'refs/heads/main' && github.event_name == 'push'`
-- [ ] 2.6 Both deploy jobs end with `serverless bref:cli --args="migrate --force"` step
+- [x] 2.1 `.github/workflows/deploy.yml` exists
+- [x] 2.2 Valid YAML — `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"`
+- [x] 2.3 Workflow defines `test`, `deploy-dev`, `deploy-prod` jobs
+- [x] 2.4 `deploy-dev` has `needs: test` + `if: github.event_name == 'pull_request'`
+- [x] 2.5 `deploy-prod` has `needs: test` + `if: github.ref == 'refs/heads/main' && github.event_name == 'push'`
+- [x] 2.6 Both deploy jobs end with `serverless bref:cli --args="migrate --force"` step
 
 #### Manual
 
-- [ ] 2.7 Workflow file reviewed — all three jobs structurally correct
+- [x] 2.7 Workflow file reviewed — all three jobs structurally correct
 
 ### Phase 3: Wire GitHub Actions Secrets
 
