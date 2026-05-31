@@ -29,9 +29,9 @@ MirrorMatch eliminates the 5–15-minute manual effort of listing a garment for 
 
 | ID   | Change ID           | Outcome (user can …)                                                                          | Prerequisites        | PRD refs                          | Status   |
 | ---- | ------------------- | --------------------------------------------------------------------------------------------- | -------------------- | --------------------------------- | -------- |
-| F-01 | auth-scaffold       | (foundation) Sanctum zainstalowany; API guard + HasApiTokens skonfigurowane                   | —                    | FR-007                            | ready    |
+| F-01 | auth-scaffold       | (foundation) Sanctum zainstalowany; API guard + HasApiTokens skonfigurowane                   | —                    | FR-007                            | done     |
 | F-02 | garment-schema      | (foundation) migracja `garments` wylądowana; pola karty ogłoszenia + soft-delete              | —                    | FR-001, FR-002, FR-003, FR-004, FR-005 | ready    |
-| F-03 | ci-cd-pipeline      | (foundation) GitHub Actions: testy + deploy-dev na PR, deploy-prod na merge do main           | —                    | —                                 | ready    |
+| F-03 | ci-cd-pipeline      | (foundation) GitHub Actions: testy + deploy-dev na PR, deploy-prod na merge do main           | —                    | —                                 | done     |
 | S-01 | account-endpoints   | założyć konto, zalogować się, wylogować się                                                   | F-01                 | FR-007, US-01                     | proposed |
 | S-02 | ai-classification   | wgrać zdjęcie garmentu i otrzymać wypełnioną kartę ogłoszenia w ciągu 30 sekund              | F-01, F-02, S-01     | FR-001, FR-002, FR-006, US-01     | proposed |
 | S-03 | listing-card-edit   | przejrzeć i edytować dowolne pole karty ogłoszenia przed eksportem                            | S-02                 | FR-003, US-01                     | proposed |
@@ -73,7 +73,7 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Niskie ryzyko; Sanctum token-auth to dobrze udokumentowany flow. Pułapka: użycie domyślnego session guard zamiast `auth:sanctum` w trasach API — API jest bezstanowe, zawsze `auth:sanctum`.
-- **Status:** ready
+- **Status:** done
 
 ### F-02: Garment domain schema
 
@@ -96,10 +96,10 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Unlocks:** Szybsza iteracja na każdym slice — brak ręcznego `serverless deploy` między PR merge'ami
 - **Prerequisites:** —
 - **Parallel with:** F-01, F-02
-- **Blockers:** GitHub Actions secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) muszą być ustawione w ustawieniach repo przed pierwszym uruchomieniem.
+- **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Dwujęzyczne CI (PHP + Node.js dla Serverless Framework). Ryzyko: krok `npm ci` nie powiedzie się, jeśli `package-lock.json` nie jest zacommitowany. Mitigacja: zacommitować `package-lock.json` teraz.
-- **Status:** ready
+- **Risk:** Dwujęzyczne CI (PHP + Node.js dla Serverless Framework). SFv4 wymaga `SERVERLESS_ACCESS_KEY` w CI (dodany jako GitHub secret).
+- **Status:** done
 
 ## Slices
 
@@ -197,3 +197,6 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 ## Done
 
 <!-- /10x-archive appends entries here when a change matching a Change ID above is archived. Do NOT pre-populate. -->
+
+- **F-01 auth-scaffold** — done 2026-05-27. Sanctum installed, `HasApiTokens` on User, `personal_access_tokens` migration, `auth:sanctum` guard, SanctumSmokeTest (3 tests). Commits: `5f2f0d8`, `7296025`, `fd7a94e`.
+- **F-03 ci-cd-pipeline** — done 2026-05-31. `.github/workflows/deploy.yml` with test + deploy-dev (PR) + deploy-prod (merge to main); Composer + npm caching; Node 22; migrations after each deploy; `SERVERLESS_ACCESS_KEY` for SFv4 CI auth. Commits: `accd8b7`, `9a99e89`, `bfbf6b8`, `ac40c88`.
