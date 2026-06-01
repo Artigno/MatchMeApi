@@ -253,31 +253,31 @@ Document the S3 bucket setup required for Lambda deploy and add missing env vars
 
 #### Automated
 
-- [x] 1.1 Create `app/Contracts/GarmentClassifier.php`
-- [x] 1.2 Create `app/Services/GarmentClassifierService.php`
-- [x] 1.3 Create `app/Testing/FakeGarmentClassifier.php`
-- [x] 1.4 Update `app/Providers/AppServiceProvider.php` — add binding
-- [x] 1.5 Update `config/services.php` — add openrouter entry
-- [x] 1.6 Update `.env.example` — add OPENROUTER vars
-- [x] 1.7 `composer test` passes
+- [x] 1.1 Create `app/Contracts/GarmentClassifier.php` — 3890802
+- [x] 1.2 Create `app/Services/GarmentClassifierService.php` — 3890802
+- [x] 1.3 Create `app/Testing/FakeGarmentClassifier.php` — 3890802
+- [x] 1.4 Update `app/Providers/AppServiceProvider.php` — add binding — 3890802
+- [x] 1.5 Update `config/services.php` — add openrouter entry — 3890802
+- [x] 1.6 Update `.env.example` — add OPENROUTER vars — 3890802
+- [x] 1.7 `composer test` passes — 3890802
 
 #### Manual
 
-- [x] 1.8 `config('services.openrouter.api_key')` readable in tinker
+- [x] 1.8 `config('services.openrouter.api_key')` readable in tinker — 3890802
 
 ### Phase 2: HTTP endpoint
 
 #### Automated
 
-- [ ] 2.1 Create `app/Http/Controllers/Api/GarmentController.php`
-- [ ] 2.2 Update `routes/api.php` — add POST /api/garments
-- [ ] 2.3 `composer test` passes
-- [ ] 2.4 `php artisan route:list | grep garments` shows route
+- [x] 2.1 Create `app/Http/Controllers/Api/GarmentController.php`
+- [x] 2.2 Update `routes/api.php` — add POST /api/garments
+- [x] 2.3 `composer test` passes
+- [x] 2.4 `php artisan route:list | grep garments` shows route
 
 #### Manual
 
-- [ ] 2.5 POST /api/garments with real photo + access token → 200 with classification + photo_url
-- [ ] 2.6 POST /api/garments without token → 401
+- [x] 2.5 POST /api/garments with real photo + access token → 200 with classification + photo_url
+- [x] 2.6 POST /api/garments without token → 401
 
 ### Phase 3: Feature tests
 

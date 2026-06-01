@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GarmentController;
 use App\Http\Controllers\Api\SupabaseController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(
     Route::get('/user', [UserController::class, 'show']);
     Route::get('/ping', fn () => response()->json(['status' => 'ok', 'user_id' => auth()->id()]));
 
-    // S-02: ai-classification endpoints here
+    Route::post('/garments', [GarmentController::class, 'classify']);
     // S-03: listing-card-edit endpoints here
     // S-04: wardrobe-catalogue endpoints here
     // S-05: garment-removal endpoints here

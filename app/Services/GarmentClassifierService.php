@@ -40,7 +40,6 @@ class GarmentClassifierService implements GarmentClassifier
                 ],
             ],
         ]);
-
         if (! $response->successful()) {
             throw new \RuntimeException('OpenRouter API returned '.$response->status());
         }
