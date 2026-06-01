@@ -1,7 +1,7 @@
 ---
 change_id: account-endpoints
 title: Add GET /api/user endpoint (S-01)
-status: planned
+status: implemented
 created: 2026-06-01
 updated: 2026-06-01
 archived_at: null

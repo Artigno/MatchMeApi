@@ -103,7 +103,7 @@ Mark S-01 as `done` in `context/foundation/roadmap.md`. Add a note clarifying th
 ### Phase 2: Update roadmap
 
 #### Automated
-- [x] 2.1 Update `context/foundation/roadmap.md` — S-01 status → `done`
+- [x] 2.1 Update `context/foundation/roadmap.md` — S-01 status → `done` — 37d9bb4
 
 #### Manual
-- [x] 2.2 Roadmap `## At a glance` visually confirms S-01 done
+- [x] 2.2 Roadmap `## At a glance` visually confirms S-01 done — 37d9bb4
