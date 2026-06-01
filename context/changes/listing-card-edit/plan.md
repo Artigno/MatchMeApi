@@ -188,9 +188,9 @@ Both inherit the `['auth:sanctum', CheckForAnyAbility::class.':access']` group m
 
 #### Automated
 
-- [x] 2.1 Create `tests/Feature/GarmentListingCardTest.php` (5 test cases)
-- [x] 2.2 `composer test` passes (30 total tests green)
+- [x] 2.1 Create `tests/Feature/GarmentListingCardTest.php` (5 test cases) — 97f9723
+- [x] 2.2 `composer test` passes (30 total tests green) — 97f9723
 
 #### Manual
 
-- [x] 2.3 All 5 methods appear with ✓ in `php artisan test --filter=GarmentListingCardTest` output
+- [x] 2.3 All 5 methods appear with ✓ in `php artisan test --filter=GarmentListingCardTest` output — 97f9723
