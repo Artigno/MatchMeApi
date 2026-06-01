@@ -14,6 +14,34 @@ class GarmentController extends Controller
 {
     public function __construct(private readonly GarmentClassifier $classifier) {}
 
+    public function show(Request $request, Garment $garment): JsonResponse
+    {
+        if ($garment->user_id !== $request->user()->id) {
+            abort(404);
+        }
+
+        return response()->json($this->garmentResource($garment));
+    }
+
+    public function update(Request $request, Garment $garment): JsonResponse
+    {
+        if ($garment->user_id !== $request->user()->id) {
+            abort(404);
+        }
+
+        $request->validate([
+            'category'    => ['sometimes', 'nullable', 'string', 'max:255'],
+            'brand'       => ['sometimes', 'nullable', 'string', 'max:255'],
+            'color'       => ['sometimes', 'nullable', 'string', 'max:255'],
+            'condition'   => ['sometimes', 'nullable', 'string', 'in:new,like new,good,fair,worn'],
+            'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
+        ]);
+
+        $garment->update($request->validated());
+
+        return response()->json($this->garmentResource($garment->fresh()));
+    }
+
     public function classify(Request $request): JsonResponse
     {
         $request->validate([
@@ -45,5 +73,20 @@ class GarmentController extends Controller
             'photo_url'   => $garment->getFirstMediaUrl('photos'),
             'created_at'  => $garment->created_at,
         ]);
+    }
+
+    private function garmentResource(Garment $garment): array
+    {
+        return [
+            'id'          => $garment->id,
+            'category'    => $garment->category,
+            'brand'       => $garment->brand,
+            'color'       => $garment->color,
+            'condition'   => $garment->condition,
+            'description' => $garment->description,
+            'photo_url'   => $garment->getFirstMediaUrl('photos'),
+            'created_at'  => $garment->created_at,
+            'updated_at'  => $garment->updated_at,
+        ];
     }
 }
