@@ -269,26 +269,26 @@ Document the S3 bucket setup required for Lambda deploy and add missing env vars
 
 #### Automated
 
-- [x] 2.1 Create `app/Http/Controllers/Api/GarmentController.php`
-- [x] 2.2 Update `routes/api.php` — add POST /api/garments
-- [x] 2.3 `composer test` passes
-- [x] 2.4 `php artisan route:list | grep garments` shows route
+- [x] 2.1 Create `app/Http/Controllers/Api/GarmentController.php` — fb74588
+- [x] 2.2 Update `routes/api.php` — add POST /api/garments — fb74588
+- [x] 2.3 `composer test` passes — fb74588
+- [x] 2.4 `php artisan route:list | grep garments` shows route — fb74588
 
 #### Manual
 
-- [x] 2.5 POST /api/garments with real photo + access token → 200 with classification + photo_url
-- [x] 2.6 POST /api/garments without token → 401
+- [x] 2.5 POST /api/garments with real photo + access token → 200 with classification + photo_url — fb74588
+- [x] 2.6 POST /api/garments without token → 401 — fb74588
 
 ### Phase 3: Feature tests
 
 #### Automated
 
-- [ ] 3.1 Create `tests/Feature/GarmentClassifyTest.php` (5 test cases)
-- [ ] 3.2 `composer test` passes (25 total tests green)
+- [x] 3.1 Create `tests/Feature/GarmentClassifyTest.php` (5 test cases)
+- [x] 3.2 `composer test` passes (25 total tests green)
 
 #### Manual
 
-- [ ] 3.3 All 5 new test methods appear with ✓ in output
+- [x] 3.3 All 5 new test methods appear with ✓ in output
 
 ### Phase 4: Prerequisites documentation
 
