@@ -92,18 +92,18 @@ Mark S-01 as `done` in `context/foundation/roadmap.md`. Add a note clarifying th
 ### Phase 1: Add GET /api/user endpoint
 
 #### Automated
-- [x] 1.1 Create `app/Http/Controllers/Api/UserController.php`
-- [x] 1.2 Add `GET /api/user` route to `routes/api.php`
-- [x] 1.3 Create `tests/Feature/UserEndpointTest.php` with 3 tests
-- [x] 1.4 `composer test` passes
+- [x] 1.1 Create `app/Http/Controllers/Api/UserController.php` — e513dcf
+- [x] 1.2 Add `GET /api/user` route to `routes/api.php` — e513dcf
+- [x] 1.3 Create `tests/Feature/UserEndpointTest.php` with 3 tests — e513dcf
+- [x] 1.4 `composer test` passes — e513dcf
 
 #### Manual
-- [x] 1.5 `GET /api/user` with access token in Postman → 200 + correct fields
+- [x] 1.5 `GET /api/user` with access token in Postman → 200 + correct fields — e513dcf
 
 ### Phase 2: Update roadmap
 
 #### Automated
-- [ ] 2.1 Update `context/foundation/roadmap.md` — S-01 status → `done`
+- [x] 2.1 Update `context/foundation/roadmap.md` — S-01 status → `done`
 
 #### Manual
-- [ ] 2.2 Roadmap `## At a glance` visually confirms S-01 done
+- [x] 2.2 Roadmap `## At a glance` visually confirms S-01 done
