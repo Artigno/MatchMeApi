@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Garment;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,6 +23,16 @@ class GarmentSchemaTest extends TestCase
 
         $this->assertNotNull($garment->id);
         $this->assertNull($garment->category);
+    }
+
+    public function test_deleting_user_cascades_to_garments(): void
+    {
+        $user = User::factory()->create();
+        Garment::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $user->delete();
+
+        $this->assertSame(0, Garment::withTrashed()->where('user_id', $user->id)->count());
     }
 
     public function test_soft_delete_sets_deleted_at(): void

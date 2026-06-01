@@ -11,10 +11,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Garment extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
-        'user_id',
         'category',
         'brand',
         'color',
