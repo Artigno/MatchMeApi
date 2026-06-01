@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SupabaseController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
@@ -17,6 +18,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(function () {
+    Route::get('/user', [UserController::class, 'show']);
     Route::get('/ping', fn () => response()->json(['status' => 'ok', 'user_id' => auth()->id()]));
 
     // S-02: ai-classification endpoints here
