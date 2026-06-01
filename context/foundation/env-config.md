@@ -158,3 +158,55 @@ php artisan key:generate   # writes APP_KEY automatically
 4. Not needed in AWS SSM yet (Supabase JWT verification is local; the secret is only needed for the `SupabaseJwtVerifier` service in production Lambda)
 
 When wiring for Lambda: add to SSM as `/mirror-match/{stage}/SUPABASE_JWT_SECRET` and reference in `serverless.yml`.
+
+---
+
+## S3 Bucket (photo storage)
+
+Required before Lambda deploy of `POST /api/garments`. Without it, `addMedia()` silently fails — garment row saves but photo is lost.
+
+### Create bucket
+
+```bash
+# Create bucket in eu-central-1 (non-us-east-1 requires LocationConstraint)
+aws s3api create-bucket \
+  --bucket mirror-match-photos \
+  --region eu-central-1 \
+  --create-bucket-configuration LocationConstraint=eu-central-1
+
+# Block all public access
+aws s3api put-public-access-block \
+  --bucket mirror-match-photos \
+  --public-access-block-configuration \
+    "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+```
+
+### SSM parameters
+
+| Parameter | Stage | Value |
+|---|---|---|
+| `/mirror-match/dev/AWS_BUCKET` | dev | `mirror-match-photos` |
+| `/mirror-match/prod/AWS_BUCKET` | prod | `mirror-match-photos` |
+
+```bash
+aws ssm put-parameter \
+  --name "/mirror-match/dev/AWS_BUCKET" \
+  --value "mirror-match-photos" \
+  --type String --region eu-central-1
+
+aws ssm put-parameter \
+  --name "/mirror-match/prod/AWS_BUCKET" \
+  --value "mirror-match-photos" \
+  --type String --region eu-central-1
+```
+
+### serverless.yml wiring
+
+`serverless.yml` already references these vars — uncomment the S3 block in the `provider.environment` section:
+
+```yaml
+FILESYSTEM_DISK: s3
+AWS_BUCKET: ${ssm:/mirror-match/${sls:stage}/AWS_BUCKET}
+```
+
+> **Lambda IAM note**: the `mirror-match-ci` IAM policy already grants `s3:*` on `arn:aws:s3:::mirror-match-*`. Lambda's execution role needs the same — add `s3:GetObject`, `s3:PutObject`, `s3:DeleteObject` on `arn:aws:s3:::mirror-match-photos/*` to the role Serverless Framework creates (`mirror-match-*-lambdaRole`).

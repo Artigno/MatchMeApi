@@ -283,20 +283,20 @@ Document the S3 bucket setup required for Lambda deploy and add missing env vars
 
 #### Automated
 
-- [x] 3.1 Create `tests/Feature/GarmentClassifyTest.php` (5 test cases)
-- [x] 3.2 `composer test` passes (25 total tests green)
+- [x] 3.1 Create `tests/Feature/GarmentClassifyTest.php` (5 test cases) — 8dc25b8
+- [x] 3.2 `composer test` passes (25 total tests green) — 8dc25b8
 
 #### Manual
 
-- [x] 3.3 All 5 new test methods appear with ✓ in output
+- [x] 3.3 All 5 new test methods appear with ✓ in output — 8dc25b8
 
 ### Phase 4: Prerequisites documentation
 
 #### Automated
 
-- [ ] 4.1 Update `context/foundation/env-config.md` — add S3 section
-- [ ] 4.2 `grep 'AWS_BUCKET' context/foundation/env-config.md` → match
+- [x] 4.1 Update `context/foundation/env-config.md` — add S3 section
+- [x] 4.2 `grep 'AWS_BUCKET' context/foundation/env-config.md` → match
 
 #### Manual
 
-- [ ] 4.3 S3 section is readable and actionable
+- [x] 4.3 S3 section is readable and actionable
