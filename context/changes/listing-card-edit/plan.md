@@ -169,28 +169,28 @@ Both inherit the `['auth:sanctum', CheckForAnyAbility::class.':access']` group m
 
 #### Automated
 
-- [x] 1.1 Add `show()` to `GarmentController`
-- [x] 1.2 Add `update()` to `GarmentController`
-- [x] 1.3 Add private `garmentResource()` helper to `GarmentController`
-- [x] 1.4 Update `routes/api.php` — add GET and PATCH routes
-- [x] 1.5 `composer test` passes (25 existing green)
-- [x] 1.6 `php artisan route:list | grep garments` shows GET, POST, PATCH
+- [x] 1.1 Add `show()` to `GarmentController` — 4445ecd
+- [x] 1.2 Add `update()` to `GarmentController` — 4445ecd
+- [x] 1.3 Add private `garmentResource()` helper to `GarmentController` — 4445ecd
+- [x] 1.4 Update `routes/api.php` — add GET and PATCH routes — 4445ecd
+- [x] 1.5 `composer test` passes (25 existing green) — 4445ecd
+- [x] 1.6 `php artisan route:list | grep garments` shows GET, POST, PATCH — 4445ecd
 
 #### Manual
 
-- [x] 1.7 GET own garment → 200 with 9 fields
-- [x] 1.8 PATCH partial update → 200 with updated resource
-- [x] 1.9 PATCH `{"brand": null}` → 200 with brand null
-- [x] 1.10 GET without token → 401
-- [x] 1.11 GET non-existent ID → 404
+- [x] 1.7 GET own garment → 200 with 9 fields — 4445ecd
+- [x] 1.8 PATCH partial update → 200 with updated resource — 4445ecd
+- [x] 1.9 PATCH `{"brand": null}` → 200 with brand null — 4445ecd
+- [x] 1.10 GET without token → 401 — 4445ecd
+- [x] 1.11 GET non-existent ID → 404 — 4445ecd
 
 ### Phase 2: Feature tests
 
 #### Automated
 
-- [ ] 2.1 Create `tests/Feature/GarmentListingCardTest.php` (5 test cases)
-- [ ] 2.2 `composer test` passes (30 total tests green)
+- [x] 2.1 Create `tests/Feature/GarmentListingCardTest.php` (5 test cases)
+- [x] 2.2 `composer test` passes (30 total tests green)
 
 #### Manual
 
-- [ ] 2.3 All 5 methods appear with ✓ in `php artisan test --filter=GarmentListingCardTest` output
+- [x] 2.3 All 5 methods appear with ✓ in `php artisan test --filter=GarmentListingCardTest` output

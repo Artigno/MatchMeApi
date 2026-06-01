@@ -29,7 +29,7 @@ class GarmentController extends Controller
             abort(404);
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'category'    => ['sometimes', 'nullable', 'string', 'max:255'],
             'brand'       => ['sometimes', 'nullable', 'string', 'max:255'],
             'color'       => ['sometimes', 'nullable', 'string', 'max:255'],
@@ -37,7 +37,7 @@ class GarmentController extends Controller
             'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
         ]);
 
-        $garment->update($request->validated());
+        $garment->update($validated);
 
         return response()->json($this->garmentResource($garment->fresh()));
     }
