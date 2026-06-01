@@ -1,7 +1,7 @@
 ---
 change_id: ai-classification
 title: POST /api/garments — photo upload → AI classification → save garment (S-02)
-status: implementing
+status: implemented
 created: 2026-06-01
 updated: 2026-06-01
 archived_at: null

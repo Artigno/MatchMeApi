@@ -294,9 +294,9 @@ Document the S3 bucket setup required for Lambda deploy and add missing env vars
 
 #### Automated
 
-- [x] 4.1 Update `context/foundation/env-config.md` — add S3 section
-- [x] 4.2 `grep 'AWS_BUCKET' context/foundation/env-config.md` → match
+- [x] 4.1 Update `context/foundation/env-config.md` — add S3 section — 02de01d
+- [x] 4.2 `grep 'AWS_BUCKET' context/foundation/env-config.md` → match — 02de01d
 
 #### Manual
 
-- [x] 4.3 S3 section is readable and actionable
+- [x] 4.3 S3 section is readable and actionable — 02de01d
