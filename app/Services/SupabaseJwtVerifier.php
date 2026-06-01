@@ -16,6 +16,10 @@ class SupabaseJwtVerifier implements SupabaseJwtVerifierContract
     {
         $secret = config('services.supabase.jwt_secret');
 
+        if (empty($secret)) {
+            throw new \RuntimeException('Supabase JWT secret is not configured.');
+        }
+
         try {
             $decoded = JWT::decode($token, new Key($secret, 'HS256'));
         } catch (ExpiredException $e) {
@@ -24,6 +28,10 @@ class SupabaseJwtVerifier implements SupabaseJwtVerifierContract
             throw new \RuntimeException('Invalid token signature.', 0, $e);
         } catch (\Exception $e) {
             throw new \RuntimeException('Malformed or invalid token.', 0, $e);
+        }
+
+        if (empty($decoded->sub)) {
+            throw new \RuntimeException('Token missing required sub claim.');
         }
 
         return [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\SupabaseJwtVerifier;
@@ -8,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupabaseController extends Controller
 {
@@ -33,11 +36,21 @@ class SupabaseController extends Controller
             return response()->json(['message' => 'Email claim required.'], 422);
         }
 
-        $user = User::updateOrCreate(
-            ['supabase_id' => $claims['sub']],
-            ['email' => $claims['email'], 'password' => bcrypt(str()->random(40))]
-        );
+        try {
+            return DB::transaction(function () use ($claims) {
+                $user = User::firstOrCreate(
+                    ['supabase_id' => $claims['sub']],
+                    ['email' => $claims['email'], 'password' => bcrypt(str()->random(40))],
+                );
+                if ($user->email !== $claims['email']) {
+                    $user->email = $claims['email'];
+                    $user->save();
+                }
 
-        return response()->json($this->issueTokenPair($user), 200);
+                return response()->json($this->issueTokenPair($user), 200);
+            });
+        } catch (\Illuminate\Database\QueryException) {
+            return response()->json(['message' => 'Email already in use.'], 409);
+        }
     }
 }

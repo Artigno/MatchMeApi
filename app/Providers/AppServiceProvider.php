@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(SupabaseJwtVerifier::class, SupabaseJwtVerifierService::class);
+        $this->app->singleton(SupabaseJwtVerifier::class, SupabaseJwtVerifierService::class);
         $this->app->bind(GarmentClassifier::class, GarmentClassifierService::class);
     }
 
