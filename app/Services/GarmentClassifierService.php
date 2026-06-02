@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\GarmentClassifier;
+use App\Models\Garment;
 use Illuminate\Support\Facades\Http;
 
 class GarmentClassifierService implements GarmentClassifier
 {
-    private const VALID_CONDITIONS = ['new', 'like new', 'good', 'fair', 'worn'];
 
     public function classify(string $base64Image, string $mimeType): array
     {
@@ -67,7 +67,7 @@ class GarmentClassifierService implements GarmentClassifier
             'category'    => $this->nullableString($data['category'] ?? null),
             'brand'       => $this->nullableString($data['brand'] ?? null),
             'color'       => $this->nullableString($data['color'] ?? null),
-            'condition'   => ($condition !== null && in_array(strtolower($condition), self::VALID_CONDITIONS, true))
+            'condition'   => ($condition !== null && in_array(strtolower($condition), Garment::CONDITIONS, true))
                 ? strtolower($condition)
                 : null,
             'description' => $this->nullableString($data['description'] ?? null),

@@ -13,17 +13,13 @@ class GarmentListingCardTest extends TestCase
 
     private function createGarment(User $user, array $fields = []): Garment
     {
-        $garment = new Garment(array_merge([
+        return Garment::factory()->for($user)->create(array_merge([
             'category'    => 'top',
             'brand'       => 'Zara',
             'color'       => 'blue',
             'condition'   => 'good',
             'description' => 'A nice top',
         ], $fields));
-        $garment->user_id = $user->id;
-        $garment->save();
-
-        return $garment;
     }
 
     private function token(User $user): string
@@ -79,5 +75,18 @@ class GarmentListingCardTest extends TestCase
 
         $this->getJson("/api/garments/{$garment->id}", ['Authorization' => 'Bearer '.$this->token($other)])
             ->assertNotFound();
+    }
+
+    public function test_update_returns_404_for_another_users_garment(): void
+    {
+        $owner = User::factory()->create();
+        $garment = $this->createGarment($owner);
+
+        $other = User::factory()->create();
+
+        $this->patchJson("/api/garments/{$garment->id}", ['brand' => 'Nike'], ['Authorization' => 'Bearer '.$this->token($other)])
+            ->assertNotFound();
+
+        $this->assertDatabaseHas('garments', ['id' => $garment->id, 'brand' => 'Zara']);
     }
 }

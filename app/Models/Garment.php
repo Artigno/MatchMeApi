@@ -13,6 +13,8 @@ class Garment extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
 
+    public const CONDITIONS = ['new', 'like new', 'good', 'fair', 'worn'];
+
     protected $fillable = [
         'category',
         'brand',

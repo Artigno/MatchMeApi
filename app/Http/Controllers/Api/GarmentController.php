@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Garment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class GarmentController extends Controller
 {
@@ -33,13 +34,14 @@ class GarmentController extends Controller
             'category'    => ['sometimes', 'nullable', 'string', 'max:255'],
             'brand'       => ['sometimes', 'nullable', 'string', 'max:255'],
             'color'       => ['sometimes', 'nullable', 'string', 'max:255'],
-            'condition'   => ['sometimes', 'nullable', 'string', 'in:new,like new,good,fair,worn'],
+            'condition'   => ['sometimes', 'nullable', 'string', Rule::in(Garment::CONDITIONS)],
             'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
         ]);
 
         $garment->update($validated);
+        $garment->refresh();
 
-        return response()->json($this->garmentResource($garment->fresh()));
+        return response()->json($this->garmentResource($garment));
     }
 
     public function classify(Request $request): JsonResponse
@@ -62,17 +64,9 @@ class GarmentController extends Controller
         $garment->save();
 
         $garment->addMedia($file)->toMediaCollection('photos');
+        $garment->refresh();
 
-        return response()->json([
-            'id'          => $garment->id,
-            'category'    => $garment->category,
-            'brand'       => $garment->brand,
-            'color'       => $garment->color,
-            'condition'   => $garment->condition,
-            'description' => $garment->description,
-            'photo_url'   => $garment->getFirstMediaUrl('photos'),
-            'created_at'  => $garment->created_at,
-        ]);
+        return response()->json($this->garmentResource($garment));
     }
 
     private function garmentResource(Garment $garment): array
