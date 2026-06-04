@@ -318,23 +318,23 @@ None — additive. No data, no schema, no runtime API change. Rollback = remove 
 
 #### Automated
 
-- [x] 2.1 File exists: `.github/pages/index.html` present
-- [x] 2.2 References spec by relative path `./openapi.json`
-- [x] 2.3 Pins a CDN version (no bare `@latest`)
+- [x] 2.1 File exists: `.github/pages/index.html` present — 77aeb54
+- [x] 2.2 References spec by relative path `./openapi.json` — 77aeb54
+- [x] 2.3 Pins a CDN version (no bare `@latest`) — 77aeb54
 
 #### Manual
 
-- [x] 2.4 Serving the dir with a local spec renders the endpoint list, no console errors
-- [x] 2.5 "Try it out" shows the configured server URL
+- [x] 2.4 Serving the dir with a local spec renders the endpoint list, no console errors — 77aeb54
+- [x] 2.5 "Try it out" shows the configured server URL — 77aeb54
 
 ### Phase 3: CI publish job + Pages enablement
 
 #### Automated
 
-- [ ] 3.1 Workflow YAML valid (yaml.safe_load)
-- [ ] 3.2 `publish-docs` job present with `needs: deploy-prod`
-- [ ] 3.3 `actions/deploy-pages` referenced
-- [ ] 3.4 Job grants `pages: write`
+- [x] 3.1 Workflow YAML valid (yaml.safe_load)
+- [x] 3.2 `publish-docs` job present with `needs: deploy-prod`
+- [x] 3.3 `actions/deploy-pages` referenced
+- [x] 3.4 Job grants `pages: write`
 
 #### Manual
 
