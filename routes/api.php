@@ -23,8 +23,8 @@ Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(
     Route::get('/ping', fn () => response()->json(['status' => 'ok', 'user_id' => auth()->id()]));
 
     Route::post('/garments', [GarmentController::class, 'classify']);
+    Route::get('/garments', [GarmentController::class, 'index']);
     Route::get('/garments/{garment}', [GarmentController::class, 'show']);
     Route::patch('/garments/{garment}', [GarmentController::class, 'update']);
-    // S-04: wardrobe-catalogue endpoints here
     // S-05: garment-removal endpoints here
 });

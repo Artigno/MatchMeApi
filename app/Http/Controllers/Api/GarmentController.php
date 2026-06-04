@@ -15,6 +15,29 @@ class GarmentController extends Controller
 {
     public function __construct(private readonly GarmentClassifier $classifier) {}
 
+    public function index(Request $request): JsonResponse
+    {
+        $paginator = Garment::where('user_id', $request->user()->id)
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        return response()->json([
+            'data'  => $paginator->getCollection()->map(fn (Garment $g) => $this->garmentResource($g))->values(),
+            'meta'  => [
+                'current_page' => $paginator->currentPage(),
+                'last_page'    => $paginator->lastPage(),
+                'per_page'     => $paginator->perPage(),
+                'total'        => $paginator->total(),
+            ],
+            'links' => [
+                'first' => $paginator->url(1),
+                'last'  => $paginator->url($paginator->lastPage()),
+                'prev'  => $paginator->previousPageUrl(),
+                'next'  => $paginator->nextPageUrl(),
+            ],
+        ]);
+    }
+
     public function show(Request $request, Garment $garment): JsonResponse
     {
         if ($garment->user_id !== $request->user()->id) {
