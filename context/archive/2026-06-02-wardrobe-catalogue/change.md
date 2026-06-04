@@ -1,10 +1,10 @@
 ---
 change_id: wardrobe-catalogue
 title: GET /api/garments — paginated wardrobe catalogue (S-04)
-status: implementing
+status: archived
 created: 2026-06-02
-updated: 2026-06-02
-archived_at: null
+updated: 2026-06-04
+archived_at: 2026-06-04T08:22:06Z
 ---
 
 ## Notes
