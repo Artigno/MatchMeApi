@@ -303,29 +303,29 @@ None — additive. No data, no schema, no runtime API change. Rollback = remove 
 
 #### Automated
 
-- [x] 1.1 Dependency installs: `composer install` exits 0
-- [x] 1.2 Config file exists: `config/scramble.php` present
-- [x] 1.3 Spec generates: `scramble:export --path=openapi.json` exits 0 and writes file
-- [x] 1.4 Spec is OpenAPI 3.1 and lists garment routes
-- [x] 1.5 Pint clean: `./vendor/bin/pint --test`
+- [x] 1.1 Dependency installs: `composer install` exits 0 — d373266
+- [x] 1.2 Config file exists: `config/scramble.php` present — d373266
+- [x] 1.3 Spec generates: `scramble:export --path=openapi.json` exits 0 and writes file — d373266
+- [x] 1.4 Spec is OpenAPI 3.1 and lists garment routes — d373266
+- [x] 1.5 Pint clean: `./vendor/bin/pint --test` — d373266
 
 #### Manual
 
-- [x] 1.6 Generated spec shows auth + garment endpoints with FormRequest fields
-- [x] 1.7 `servers` block reflects `SCRAMBLE_SERVER_URL` when set locally
+- [x] 1.6 Generated spec shows auth + garment endpoints with FormRequest fields — d373266
+- [x] 1.7 `servers` block reflects `SCRAMBLE_SERVER_URL` when set locally — d373266
 
 ### Phase 2: Static Swagger UI page
 
 #### Automated
 
-- [ ] 2.1 File exists: `.github/pages/index.html` present
-- [ ] 2.2 References spec by relative path `./openapi.json`
-- [ ] 2.3 Pins a CDN version (no bare `@latest`)
+- [x] 2.1 File exists: `.github/pages/index.html` present
+- [x] 2.2 References spec by relative path `./openapi.json`
+- [x] 2.3 Pins a CDN version (no bare `@latest`)
 
 #### Manual
 
-- [ ] 2.4 Serving the dir with a local spec renders the endpoint list, no console errors
-- [ ] 2.5 "Try it out" shows the configured server URL
+- [x] 2.4 Serving the dir with a local spec renders the endpoint list, no console errors
+- [x] 2.5 "Try it out" shows the configured server URL
 
 ### Phase 3: CI publish job + Pages enablement
 
