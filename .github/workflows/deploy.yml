@@ -136,6 +136,10 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate
+          # Scramble introspects model tables (e.g. UserController@show) to infer
+          # response schemas, so it needs a migrated DB even though we never serve.
+          touch database/database.sqlite
+          php artisan migrate --force
           mkdir -p "${GITHUB_WORKSPACE}/site"
           php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/openapi.json"
           cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/index.html"
@@ -153,6 +157,9 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate
+          # Scramble introspects model tables to infer response schemas → needs a migrated DB.
+          touch database/database.sqlite
+          php artisan migrate --force
           mkdir -p "${GITHUB_WORKSPACE}/site/dev"
           php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/dev/openapi.json"
           cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/dev/index.html"
