@@ -26,5 +26,5 @@ Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(
     Route::get('/garments', [GarmentController::class, 'index']);
     Route::get('/garments/{garment}', [GarmentController::class, 'show']);
     Route::patch('/garments/{garment}', [GarmentController::class, 'update']);
-    // S-05: garment-removal endpoints here
+    Route::delete('/garments/{garment}', [GarmentController::class, 'destroy']);
 });

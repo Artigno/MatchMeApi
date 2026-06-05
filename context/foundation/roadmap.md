@@ -3,7 +3,7 @@ project: MirrorMatch
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-06-04
+updated: 2026-06-05
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -36,7 +36,7 @@ MirrorMatch eliminates the 5–15-minute manual effort of listing a garment for 
 | S-02 | ai-classification   | wgrać zdjęcie garmentu i otrzymać wypełnioną kartę ogłoszenia w ciągu 30 sekund              | F-01, F-02, S-01     | FR-001, FR-002, FR-006, US-01     | done     |
 | S-03 | listing-card-edit   | przejrzeć i edytować dowolne pole karty ogłoszenia przed eksportem                            | S-02                 | FR-003, US-01                     | proposed |
 | S-04 | wardrobe-catalogue  | przeglądać wszystkie garmencie w swojej szafie                                                | F-01, F-02, S-01     | FR-004                            | done     |
-| S-05 | garment-removal     | usunąć garment ze swojej szafy                                                                | F-01, F-02, S-01     | FR-005                            | proposed |
+| S-05 | garment-removal     | usunąć garment ze swojej szafy                                                                | F-01, F-02, S-01     | FR-005                            | done |
 
 ## Streams
 
@@ -162,7 +162,7 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Minimalne. Jeśli wybrano hard-delete: zdjęcie na S3 musi być usunięte w tej samej transakcji (lub job kolejki) — nie zostawiać osieroconych plików.
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -204,3 +204,4 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **F-02 garment-schema** — done 2026-05-27. `garments` migration: `id`, `user_id` (FK → users), `photo_path`, `category`, `brand`, `color`, `condition`, `description`, `deleted_at` (soft delete), `timestamps`. Commit: `43d747e`.
 - **S-02 ai-classification** — done 2026-06-01. POST /api/garments: photo upload → Gemini 2.0 Flash via OpenRouter → classified listing card saved to `garments`; null for low-confidence fields; 25 tests green (5 new feature tests). Commits: `3890802`, `fb74588`, `8dc25b8`, `02de01d`, `a3f20c6`.
 - **S-04: użytkownik może przeglądać wszystkie garmencie w swojej szafie (`GET /api/garments` — paginacja, posortowane po `created_at desc`)** — Archived 2026-06-04 → `context/archive/2026-06-02-wardrobe-catalogue/`. Lesson: —.
+- **S-05: użytkownik może usunąć garment ze swojej szafy (`DELETE /api/garments/{id}` — soft-delete przez `deleted_at` lub hard-delete per F-02 decision)** — Archived 2026-06-05 → `context/archive/2026-06-04-garment-removal/`. Lesson: —.
