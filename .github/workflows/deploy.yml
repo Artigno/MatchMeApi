@@ -2,9 +2,9 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [dev, main]
   pull_request:
-    branches: [main]
+    branches: [dev, main]
 
 jobs:
   test:
@@ -26,7 +26,7 @@ jobs:
 
   deploy-dev:
     needs: test
-    if: github.event_name == 'pull_request'
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
@@ -96,9 +96,15 @@ jobs:
       - run: npx serverless deploy --stage prod
       - run: npx serverless bref:cli --stage prod --args="migrate --force"
 
+  # Publishes BOTH stage docs to one Pages site after either deploy succeeds.
+  # GitHub Pages replaces the whole site per deploy, so we always rebuild both
+  # (prod from `main` → root, dev from `dev` → /dev) and deploy once — otherwise
+  # a dev publish would clobber the prod docs URL and vice versa.
   publish-docs:
-    needs: deploy-prod
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [deploy-dev, deploy-prod]
+    if: >-
+      always() &&
+      (needs.deploy-dev.result == 'success' || needs.deploy-prod.result == 'success')
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -111,26 +117,45 @@ jobs:
       group: pages
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: Cache Composer
-        uses: actions/cache@v4
+
+      # --- Prod docs (from main) → site root ---
+      - name: Checkout main
+        uses: actions/checkout@v4
         with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      # Install WITH dev deps — dedoc/scramble is require-dev and provides scramble:export.
-      - run: composer install --no-interaction --prefer-dist
-      - run: cp .env.example .env && php artisan key:generate
-      - name: Export OpenAPI spec and assemble site
+          ref: main
+          path: src-prod
+      - name: Build prod spec
+        working-directory: src-prod
+        # Install WITH dev deps — dedoc/scramble is require-dev and provides scramble:export.
         env:
           SCRAMBLE_SERVER_URL: ${{ vars.SCRAMBLE_SERVER_URL }}
         run: |
-          mkdir -p site
-          php artisan scramble:export --path=site/openapi.json
-          cp .github/pages/index.html site/index.html
+          composer install --no-interaction --prefer-dist
+          cp .env.example .env && php artisan key:generate
+          mkdir -p "${GITHUB_WORKSPACE}/site"
+          php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/openapi.json"
+          cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/index.html"
+
+      # --- Dev docs (from dev) → /dev subpath ---
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: src-dev
+      - name: Build dev spec
+        working-directory: src-dev
+        env:
+          SCRAMBLE_SERVER_URL: ${{ vars.SCRAMBLE_SERVER_URL_DEV }}
+        run: |
+          composer install --no-interaction --prefer-dist
+          cp .env.example .env && php artisan key:generate
+          mkdir -p "${GITHUB_WORKSPACE}/site/dev"
+          php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/dev/openapi.json"
+          cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/dev/index.html"
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
