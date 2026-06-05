@@ -24,7 +24,7 @@ Homestead.yaml
 Thumbs.db
 /testing
 /database/*.sqlite
-.serverless/mirror-match.zip
+.serverless
 
 # Generated OpenAPI specs (Scramble) — built in CI, not committed
 /openapi.json
