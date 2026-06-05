@@ -275,23 +275,23 @@ the table + remove the endpoint. Existing data unaffected.
 
 #### Automated
 
-- [x] 2.1 Pint clean: `./vendor/bin/pint --test`
-- [x] 2.2 DELETE route registered: `php artisan route:list --path=api/garments`
-- [x] 2.3 Full suite green: `composer test`
+- [x] 2.1 Pint clean: `./vendor/bin/pint --test` — f749a48
+- [x] 2.2 DELETE route registered: `php artisan route:list --path=api/garments` — f749a48
+- [x] 2.3 Full suite green: `composer test` — f749a48
 
 #### Manual
 
-- [x] 2.4 Owned garment → 204; row + photo removed; audit row present
-- [x] 2.5 Another user's garment → 404; nothing removed
+- [x] 2.4 Owned garment → 204; row + photo removed; audit row present — f749a48
+- [x] 2.5 Another user's garment → 404; nothing removed — f749a48
 
 ### Phase 3: Feature tests
 
 #### Automated
 
-- [ ] 3.1 New tests pass: `php artisan test --filter=GarmentRemovalTest`
-- [ ] 3.2 Full suite green: `composer test`
-- [ ] 3.3 Pint clean: `./vendor/bin/pint --test`
+- [x] 3.1 New tests pass: `php artisan test --filter=GarmentRemovalTest`
+- [x] 3.2 Full suite green: `composer test`
+- [x] 3.3 Pint clean: `./vendor/bin/pint --test`
 
 #### Manual
 
-- [ ] 3.4 Test names read as the behavioural contract; happy-path asserts media + audit
+- [x] 3.4 Test names read as the behavioural contract; happy-path asserts media + audit
