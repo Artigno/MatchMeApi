@@ -331,10 +331,10 @@ None — additive. No data, no schema, no runtime API change. Rollback = remove 
 
 #### Automated
 
-- [x] 3.1 Workflow YAML valid (yaml.safe_load)
-- [x] 3.2 `publish-docs` job present with `needs: deploy-prod`
-- [x] 3.3 `actions/deploy-pages` referenced
-- [x] 3.4 Job grants `pages: write`
+- [x] 3.1 Workflow YAML valid (yaml.safe_load) — 0274bb9
+- [x] 3.2 `publish-docs` job present with `needs: deploy-prod` — 0274bb9
+- [x] 3.3 `actions/deploy-pages` referenced — 0274bb9
+- [x] 3.4 Job grants `pages: write` — 0274bb9
 
 #### Manual
 

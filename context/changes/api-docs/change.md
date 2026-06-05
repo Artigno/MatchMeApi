@@ -1,9 +1,9 @@
 ---
 change_id: api-docs
 title: Public OpenAPI docs on GitHub Pages, auto-published from CI
-status: implementing
+status: impl_reviewed
 created: 2026-06-04
-updated: 2026-06-04
+updated: 2026-06-05
 archived_at: null
 ---
 

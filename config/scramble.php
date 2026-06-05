@@ -96,7 +96,7 @@ return [
     'servers' => [
         // Paths in the spec are stripped of the `api` prefix, so the server URL must
         // carry the `/api` base (e.g. https://<gw>.execute-api.eu-central-1.amazonaws.com/api).
-        'Production' => env('SCRAMBLE_SERVER_URL', 'https://api.example.invalid/api'),
+        'Production' => env('SCRAMBLE_SERVER_URL') ?: 'https://api.example.invalid/api',
     ],
 
     /**
