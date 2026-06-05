@@ -262,27 +262,27 @@ the table + remove the endpoint. Existing data unaffected.
 
 #### Automated
 
-- [x] 1.1 Migration applies: `php artisan migrate:fresh` exits 0
-- [x] 1.2 `garment_deletions` table exists with expected columns
-- [x] 1.3 Pint clean: `./vendor/bin/pint --test`
-- [x] 1.4 Existing suite green: `composer test`
+- [x] 1.1 Migration applies: `php artisan migrate:fresh` exits 0 — d4f920a
+- [x] 1.2 `garment_deletions` table exists with expected columns — d4f920a
+- [x] 1.3 Pint clean: `./vendor/bin/pint --test` — d4f920a
+- [x] 1.4 Existing suite green: `composer test` — d4f920a
 
 #### Manual
 
-- [x] 1.5 `GarmentDeletion::create([...])` round-trips with `snapshot` cast to array
+- [x] 1.5 `GarmentDeletion::create([...])` round-trips with `snapshot` cast to array — d4f920a
 
 ### Phase 2: DELETE endpoint
 
 #### Automated
 
-- [ ] 2.1 Pint clean: `./vendor/bin/pint --test`
-- [ ] 2.2 DELETE route registered: `php artisan route:list --path=api/garments`
-- [ ] 2.3 Full suite green: `composer test`
+- [x] 2.1 Pint clean: `./vendor/bin/pint --test`
+- [x] 2.2 DELETE route registered: `php artisan route:list --path=api/garments`
+- [x] 2.3 Full suite green: `composer test`
 
 #### Manual
 
-- [ ] 2.4 Owned garment → 204; row + photo removed; audit row present
-- [ ] 2.5 Another user's garment → 404; nothing removed
+- [x] 2.4 Owned garment → 204; row + photo removed; audit row present
+- [x] 2.5 Another user's garment → 404; nothing removed
 
 ### Phase 3: Feature tests
 
