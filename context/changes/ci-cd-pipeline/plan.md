@@ -292,6 +292,6 @@ None — no application logic; workflow file is declarative YAML.
 
 #### Manual
 
-- [ ] 3.1 `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` added to GitHub repo secrets
-- [ ] 3.2 Test PR → `test` + `deploy-dev` jobs both appear and pass
-- [ ] 3.3 Merge to `main` → `deploy-prod` triggers and passes
+- [x] 3.1 `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` added to GitHub repo secrets
+- [x] 3.2 Test PR → `test` + `deploy-dev` jobs both appear and pass
+- [x] 3.3 Merge to `main` → `deploy-prod` triggers and passes

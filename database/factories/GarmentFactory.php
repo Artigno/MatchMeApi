@@ -18,7 +18,7 @@ class GarmentFactory extends Factory
             'category' => fake()->randomElement(['top', 'bottom', 'shoes', 'accessory', 'outerwear']),
             'brand' => fake()->company(),
             'color' => fake()->colorName(),
-            'condition' => fake()->randomElement(['new', 'like_new', 'good', 'fair', 'poor']),
+            'condition' => fake()->randomElement(Garment::CONDITIONS),
             'description' => fake()->sentence(),
         ];
     }

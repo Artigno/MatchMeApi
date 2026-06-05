@@ -70,4 +70,16 @@ class SupabaseExchangeTest extends TestCase
             'Authorization' => 'Bearer bad-token',
         ])->assertUnauthorized();
     }
+
+    public function test_exchange_without_email_claim_returns_422(): void
+    {
+        $this->app->instance(SupabaseJwtVerifier::class, new FakeSupabaseJwtVerifier([
+            'sub' => 'uuid-no-email',
+            'email' => null,
+        ]));
+
+        $this->postJson('/api/auth/supabase/exchange', [], [
+            'Authorization' => 'Bearer fake-token',
+        ])->assertUnprocessable();
+    }
 }

@@ -3,7 +3,7 @@ project: MirrorMatch
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-05-25
+updated: 2026-06-04
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -29,13 +29,13 @@ MirrorMatch eliminates the 5–15-minute manual effort of listing a garment for 
 
 | ID   | Change ID           | Outcome (user can …)                                                                          | Prerequisites        | PRD refs                          | Status   |
 | ---- | ------------------- | --------------------------------------------------------------------------------------------- | -------------------- | --------------------------------- | -------- |
-| F-01 | auth-scaffold       | (foundation) Sanctum zainstalowany; API guard + HasApiTokens skonfigurowane                   | —                    | FR-007                            | ready    |
-| F-02 | garment-schema      | (foundation) migracja `garments` wylądowana; pola karty ogłoszenia + soft-delete              | —                    | FR-001, FR-002, FR-003, FR-004, FR-005 | ready    |
-| F-03 | ci-cd-pipeline      | (foundation) GitHub Actions: testy + deploy-dev na PR, deploy-prod na merge do main           | —                    | —                                 | ready    |
-| S-01 | account-endpoints   | założyć konto, zalogować się, wylogować się                                                   | F-01                 | FR-007, US-01                     | proposed |
-| S-02 | ai-classification   | wgrać zdjęcie garmentu i otrzymać wypełnioną kartę ogłoszenia w ciągu 30 sekund              | F-01, F-02, S-01     | FR-001, FR-002, FR-006, US-01     | proposed |
+| F-01 | auth-scaffold       | (foundation) Sanctum zainstalowany; API guard + HasApiTokens skonfigurowane                   | —                    | FR-007                            | done     |
+| F-02 | garment-schema      | (foundation) migracja `garments` wylądowana; pola karty ogłoszenia + soft-delete              | —                    | FR-001, FR-002, FR-003, FR-004, FR-005 | done     |
+| F-03 | ci-cd-pipeline      | (foundation) GitHub Actions: testy + deploy-dev na PR, deploy-prod na merge do main           | —                    | —                                 | done     |
+| S-01 | account-endpoints   | założyć konto, zalogować się, wylogować się                                                   | F-01                 | FR-007, US-01                     | done     |
+| S-02 | ai-classification   | wgrać zdjęcie garmentu i otrzymać wypełnioną kartę ogłoszenia w ciągu 30 sekund              | F-01, F-02, S-01     | FR-001, FR-002, FR-006, US-01     | done     |
 | S-03 | listing-card-edit   | przejrzeć i edytować dowolne pole karty ogłoszenia przed eksportem                            | S-02                 | FR-003, US-01                     | proposed |
-| S-04 | wardrobe-catalogue  | przeglądać wszystkie garmencie w swojej szafie                                                | F-01, F-02, S-01     | FR-004                            | proposed |
+| S-04 | wardrobe-catalogue  | przeglądać wszystkie garmencie w swojej szafie                                                | F-01, F-02, S-01     | FR-004                            | done     |
 | S-05 | garment-removal     | usunąć garment ze swojej szafy                                                                | F-01, F-02, S-01     | FR-005                            | proposed |
 
 ## Streams
@@ -73,7 +73,7 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Niskie ryzyko; Sanctum token-auth to dobrze udokumentowany flow. Pułapka: użycie domyślnego session guard zamiast `auth:sanctum` w trasach API — API jest bezstanowe, zawsze `auth:sanctum`.
-- **Status:** ready
+- **Status:** done
 
 ### F-02: Garment domain schema
 
@@ -96,10 +96,10 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Unlocks:** Szybsza iteracja na każdym slice — brak ręcznego `serverless deploy` między PR merge'ami
 - **Prerequisites:** —
 - **Parallel with:** F-01, F-02
-- **Blockers:** GitHub Actions secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) muszą być ustawione w ustawieniach repo przed pierwszym uruchomieniem.
+- **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Dwujęzyczne CI (PHP + Node.js dla Serverless Framework). Ryzyko: krok `npm ci` nie powiedzie się, jeśli `package-lock.json` nie jest zacommitowany. Mitigacja: zacommitować `package-lock.json` teraz.
-- **Status:** ready
+- **Risk:** Dwujęzyczne CI (PHP + Node.js dla Serverless Framework). SFv4 wymaga `SERVERLESS_ACCESS_KEY` w CI (dodany jako GitHub secret).
+- **Status:** done
 
 ## Slices
 
@@ -150,7 +150,7 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Minimalne. Ryzyko: N+1 query jeśli pola karty są ładowane lazy — trzymać wszystkie pola na tabeli `garments` (bez osobnej tabeli `listing_cards`).
-- **Status:** proposed
+- **Status:** done
 
 ### S-05: Garment removal
 
@@ -197,3 +197,10 @@ Stan codebase na 2026-05-25 (auto-researched + user-confirmed). Foundations poni
 ## Done
 
 <!-- /10x-archive appends entries here when a change matching a Change ID above is archived. Do NOT pre-populate. -->
+
+- **F-01 auth-scaffold** — done 2026-05-27. Sanctum installed, `HasApiTokens` on User, `personal_access_tokens` migration, `auth:sanctum` guard, SanctumSmokeTest (3 tests). Commits: `5f2f0d8`, `7296025`, `fd7a94e`.
+- **F-03 ci-cd-pipeline** — done 2026-05-31. `.github/workflows/deploy.yml` with test + deploy-dev (PR) + deploy-prod (merge to main); Composer + npm caching; Node 22; migrations after each deploy; `SERVERLESS_ACCESS_KEY` for SFv4 CI auth. Commits: `accd8b7`, `9a99e89`, `bfbf6b8`, `ac40c88`.
+- **S-01 account-endpoints** — done 2026-06-01. Register/login handled Supabase-side (Expo SDK → `POST /api/auth/supabase/exchange`); logout + refresh already in supabase-auth-scaffold. Added `GET /api/user` returning `{id, email, name, created_at}` behind `auth:sanctum+access` guard. Commit: `e513dcf`.
+- **F-02 garment-schema** — done 2026-05-27. `garments` migration: `id`, `user_id` (FK → users), `photo_path`, `category`, `brand`, `color`, `condition`, `description`, `deleted_at` (soft delete), `timestamps`. Commit: `43d747e`.
+- **S-02 ai-classification** — done 2026-06-01. POST /api/garments: photo upload → Gemini 2.0 Flash via OpenRouter → classified listing card saved to `garments`; null for low-confidence fields; 25 tests green (5 new feature tests). Commits: `3890802`, `fb74588`, `8dc25b8`, `02de01d`, `a3f20c6`.
+- **S-04: użytkownik może przeglądać wszystkie garmencie w swojej szafie (`GET /api/garments` — paginacja, posortowane po `created_at desc`)** — Archived 2026-06-04 → `context/archive/2026-06-02-wardrobe-catalogue/`. Lesson: —.

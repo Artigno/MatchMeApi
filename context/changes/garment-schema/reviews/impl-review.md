@@ -37,7 +37,7 @@
   - Tradeoff: Relies on S-02 implementer following the rule — model offers no guard.
   - Confidence: MEDIUM — works only if the rule is followed consistently.
   - Blind spot: If S-02 is implemented in a new agent run with no memory of this finding, risk silently re-opens.
-- **Decision**: PENDING
+- **Decision**: FIXED via Fix A — removed `user_id` from `$fillable` in `app/Models/Garment.php`
 
 ### F2 — No test for cascadeOnDelete FK behavior
 
@@ -47,7 +47,7 @@
 - **Location**: tests/Feature/GarmentSchemaTest.php (missing test)
 - **Detail**: Migration declares `cascadeOnDelete()` on the `user_id` FK. No test verifies that deleting a User removes their Garments. Future migrations could silently drop the CASCADE constraint and the suite would not catch it.
 - **Fix**: Add one test: `$user->delete()` → `Garment::withTrashed()->where('user_id', $user->id)->count()` === 0.
-- **Decision**: PENDING
+- **Decision**: FIXED — added `test_deleting_user_cascades_to_garments()` to `tests/Feature/GarmentSchemaTest.php`
 
 ### F3 — outerwear in factory not in plan contract
 
@@ -57,7 +57,7 @@
 - **Location**: database/factories/GarmentFactory.php:19
 - **Detail**: Plan contract: `['top', 'bottom', 'shoes', 'accessory']`. Actual: `['top', 'bottom', 'shoes', 'accessory', 'outerwear']`. Benign — factory data only; no schema constraint, no API surface.
 - **Fix**: Remove outerwear from factory to match plan, or add addendum note to the plan.
-- **Decision**: PENDING
+- **Decision**: SKIPPED — outerwear is valid domain data; benign divergence
 
 ### F4 — Trait order diverges from User model convention
 
@@ -67,4 +67,4 @@
 - **Location**: app/Models/Garment.php:14
 - **Detail**: `use HasFactory, InteractsWithMedia, SoftDeletes;` — alphabetical within group. User.php uses `HasApiTokens, HasFactory, Notifiable` — also roughly alphabetical. Not a hard convention, minor consistency note.
 - **Fix**: No action needed unless a project convention is formally established.
-- **Decision**: PENDING
+- **Decision**: FIXED — reordered to `HasFactory, SoftDeletes, InteractsWithMedia`

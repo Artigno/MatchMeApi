@@ -11,10 +11,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Garment extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
+
+    public const CONDITIONS = ['new', 'like new', 'good', 'fair', 'worn'];
 
     protected $fillable = [
-        'user_id',
         'category',
         'brand',
         'color',

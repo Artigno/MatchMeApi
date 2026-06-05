@@ -4,8 +4,8 @@
 - **Plan**: context/changes/supabase-auth-scaffold/plan.md
 - **Scope**: All phases (1–4 of 4)
 - **Date**: 2026-05-29
-- **Verdict**: NEEDS ATTENTION
-- **Findings**: 1 critical  4 warnings  3 observations
+- **Verdict**: NEEDS ATTENTION → FIXED
+- **Findings**: 1 critical  4 warnings  3 observations (all fixed)
 
 ## Verdicts
 
@@ -32,7 +32,7 @@
   - Tradeoff: Minimal — one guard line.
   - Confidence: HIGH — firebase/php-jwt Key constructor accepts empty string without error.
   - Blind spot: None significant.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F2 — Unplanned random password stored on every exchange
 
@@ -51,7 +51,7 @@
   - Tradeoff: New migration + confirms password-less users are intentionally supported.
   - Confidence: MED — need to verify UserFactory and seeders don't break.
   - Blind spot: Need to check UserFactory and any seeders.
-- **Decision**: PENDING
+- **Decision**: FIXED (Fix A)
 
 ### F3 — Missing sub claim allows null supabase_id match
 
@@ -65,7 +65,7 @@
   - Tradeoff: One extra check in the verifier.
   - Confidence: HIGH — supabase_id column allows NULL and has no per-row guard.
   - Blind spot: None significant.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F4 — Token pair creation not wrapped in DB::transaction
 
@@ -79,7 +79,7 @@
   - Tradeoff: Trivial — one wrapping closure.
   - Confidence: HIGH — directly analogous to AuthController::refresh().
   - Blind spot: None significant.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F5 — dropColumn without explicit dropUnique in down()
 
@@ -93,7 +93,7 @@
   - Tradeoff: One extra line.
   - Confidence: HIGH — Aurora is the stated production target.
   - Blind spot: None significant.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F6 — Missing test for null email claim (422 branch untested)
 
@@ -103,7 +103,7 @@
 - **Location**: tests/Feature/SupabaseExchangeTest.php
 - **Detail**: Plan called for 4 tests. The 422 (null email claim) branch in SupabaseController.php:32-34 has no test. Reachable in production (Supabase magic-link user with unconfirmed email).
 - **Fix**: Add `test_exchange_without_email_claim_returns_422()` using `FakeSupabaseJwtVerifier(['sub' => 'uuid', 'email' => null])`.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F7 — declare(strict_types=1) absent from controllers and trait
 
@@ -113,7 +113,7 @@
 - **Location**: app/Http/Controllers/Api/SupabaseController.php, app/Http/Controllers/Api/Concerns/IssuesTokenPairs.php
 - **Detail**: New infrastructure files (Contracts/, Services/, Testing/) all have declare(strict_types=1). New controllers and the trait do not. Existing controllers also lack it — consistent with siblings — but new service layer set a stricter standard.
 - **Fix**: Add `declare(strict_types=1);` to SupabaseController.php and IssuesTokenPairs.php.
-- **Decision**: PENDING
+- **Decision**: FIXED
 
 ### F8 — bind() instead of singleton() for stateless service
 
@@ -123,4 +123,4 @@
 - **Location**: app/Providers/AppServiceProvider.php
 - **Detail**: bind() instantiates a new SupabaseJwtVerifier per resolution. The service is stateless — singleton() is more appropriate and avoids unnecessary object creation per request.
 - **Fix**: Change `bind()` to `singleton()` in AppServiceProvider.
-- **Decision**: PENDING
+- **Decision**: FIXED
