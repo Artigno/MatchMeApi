@@ -164,7 +164,11 @@ jobs:
           php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/dev/openapi.json"
           cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/dev/index.html"
 
+      # enablement: true lets the workflow create/enable the Pages site itself,
+      # avoiding the one-time manual "Settings → Pages → Source = GitHub Actions".
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
