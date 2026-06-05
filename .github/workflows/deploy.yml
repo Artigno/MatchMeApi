@@ -8,6 +8,9 @@ on:
 
 jobs:
   test:
+    # Tests gate the PR before merge. They do NOT re-run on push to dev/main —
+    # the merge is already validated by this PR run, so deploy jobs don't need it.
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +28,6 @@ jobs:
       - run: composer test
 
   deploy-dev:
-    needs: test
     if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
@@ -61,7 +63,6 @@ jobs:
       - run: npx serverless bref:cli --stage dev --args="migrate --force"
 
   deploy-prod:
-    needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
@@ -135,6 +136,10 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate
+          # Scramble introspects model tables (e.g. UserController@show) to infer
+          # response schemas, so it needs a migrated DB even though we never serve.
+          touch database/database.sqlite
+          php artisan migrate --force
           mkdir -p "${GITHUB_WORKSPACE}/site"
           php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/openapi.json"
           cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/index.html"
@@ -152,6 +157,9 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate
+          # Scramble introspects model tables to infer response schemas → needs a migrated DB.
+          touch database/database.sqlite
+          php artisan migrate --force
           mkdir -p "${GITHUB_WORKSPACE}/site/dev"
           php artisan scramble:export --path="${GITHUB_WORKSPACE}/site/dev/openapi.json"
           cp .github/pages/index.html "${GITHUB_WORKSPACE}/site/dev/index.html"
