@@ -1,10 +1,10 @@
 ---
 change_id: garment-removal
 title: Garment removal (S-05) — DELETE /api/garments/{id}, hard-delete + S3 cleanup + audit
-status: impl_reviewed
+status: archived
 created: 2026-06-04
 updated: 2026-06-05
-archived_at: null
+archived_at: 2026-06-05T19:00:38Z
 ---
 
 ## Notes
