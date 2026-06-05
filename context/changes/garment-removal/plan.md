@@ -288,10 +288,10 @@ the table + remove the endpoint. Existing data unaffected.
 
 #### Automated
 
-- [x] 3.1 New tests pass: `php artisan test --filter=GarmentRemovalTest`
-- [x] 3.2 Full suite green: `composer test`
-- [x] 3.3 Pint clean: `./vendor/bin/pint --test`
+- [x] 3.1 New tests pass: `php artisan test --filter=GarmentRemovalTest` — 03f7670
+- [x] 3.2 Full suite green: `composer test` — 03f7670
+- [x] 3.3 Pint clean: `./vendor/bin/pint --test` — 03f7670
 
 #### Manual
 
-- [x] 3.4 Test names read as the behavioural contract; happy-path asserts media + audit
+- [x] 3.4 Test names read as the behavioural contract; happy-path asserts media + audit — 03f7670
