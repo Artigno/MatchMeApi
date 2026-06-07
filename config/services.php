@@ -37,12 +37,13 @@ return [
 
     'supabase' => [
         'jwt_secret' => env('SUPABASE_JWT_SECRET'),
+        'url' => env('SUPABASE_URL'),
     ],
 
     'openrouter' => [
-        'api_key'  => env('OPENROUTER_API_KEY'),
+        'api_key' => env('OPENROUTER_API_KEY'),
         'base_url' => env('OPENROUTER_BASE_URL', 'https://openrouter.ai/api/v1'),
-        'model'    => env('AI_VISION_MODEL', 'google/gemini-2.0-flash'),
+        'model' => env('AI_VISION_MODEL', 'google/gemini-2.0-flash'),
     ],
 
 ];

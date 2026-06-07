@@ -27,6 +27,8 @@ provider:
         OPENROUTER_API_KEY: ${ssm:/mirror-match/${sls:stage}/OPENROUTER_API_KEY}
         OPENROUTER_BASE_URL: https://openrouter.ai/api/v1
         AI_VISION_MODEL: google/gemini-2.0-flash
+        # Supabase project URL — used to fetch JWKS for ES256/RS256 token verification
+        SUPABASE_URL: ${ssm:/mirror-match/${sls:stage}/SUPABASE_URL}
         # Queue configuration: https://bref.sh/docs/laravel/queues
         #QUEUE_CONNECTION: sqs
         #SQS_QUEUE: ${construct:jobs.queueUrl}
