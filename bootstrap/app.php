@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureAppKey;
+use App\Http\Middleware\ForceJsonResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'app.key' => EnsureAppKey::class,
         ]);
+
+        // Treat every API request as JSON so validation failures return 422 JSON
+        // even when the client omits `Accept: application/json` (e.g. raw multipart).
+        $middleware->prependToGroup('api', ForceJsonResponse::class);
+
+        // Behind API Gateway / Lambda (Bref) the gateway is the only ingress and
+        // sets X-Forwarded-For. Trust it so $request->ip() is the real client —
+        // otherwise rate limiters (e.g. throttle on /classify) key on the proxy
+        // IP and collapse to a single global bucket.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

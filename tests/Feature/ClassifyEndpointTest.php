@@ -102,6 +102,16 @@ class ClassifyEndpointTest extends TestCase
             ->assertJsonValidationErrors(['photo']);
     }
 
+    public function test_classify_validation_returns_422_without_accept_header(): void
+    {
+        // Raw multipart POST (no Accept: application/json). The force-JSON API
+        // middleware must keep this a 422, not a 302 redirect.
+        $this->app->instance(GarmentClassifier::class, new FakeGarmentClassifier);
+
+        $this->post('/api/classify', [], $this->appKeyHeader())
+            ->assertStatus(422);
+    }
+
     public function test_classify_returns_504_on_timeout(): void
     {
         $this->app->instance(GarmentClassifier::class, new FakeGarmentClassifier(

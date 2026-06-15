@@ -22,3 +22,10 @@
 - **Problem**: `env('KEY', 'fallback')` zwraca fallback tylko gdy klucz jest NIEOBECNY. CI dla nieustawionej zmiennej przekazuje pusty string → fallback się nie aktywuje, a puste wartości wyciekają do configu (np. URL serwera w specyfikacji = `http://localhost`). To plausible-but-wrong zamiast czytelnego sentinela. Patrz [[nie-generuj-plausible-but-wrong]].
 - **Rule**: Dla wartości, które CI może przekazać jako pusty string, używaj `env('KEY') ?: 'fallback'` zamiast drugiego argumentu `env()`. `?:` łapie też pusty string.
 - **Applies to**: plan, implement, impl-review
+
+## API: walidacja zwraca 422 tylko gdy request expectsJson()
+
+- **Context**: Endpointy API-only (Laravel) używające `$request->validate()` / FormRequest, wołane z `multipart/form-data` lub innym ciałem bez nagłówka `Accept: application/json` (np. surowy upload pliku z klienta mobilnego).
+- **Problem**: `$request->validate()` renderuje błąd 422 tylko gdy `$request->expectsJson()`. Żądanie multipart bez `Accept: application/json` przy błędzie walidacji dostaje redirect 302 do `/`, nie 422. Testy `postJson` tego nie łapią (ustawiają Accept), więc luka jest niewidoczna do realnego ruchu klienta.
+- **Rule**: Klient API MUSI wysyłać `Accept: application/json` na każdym żądaniu, albo wepnij middleware wymuszające JSON na grupie `api`. Nie polegaj na tym, że testy `postJson` udowadniają kontrakt 422 — dodaj test bez nagłówka Accept dla krytycznych endpointów.
+- **Applies to**: plan, implement, impl-review

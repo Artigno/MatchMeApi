@@ -440,15 +440,15 @@ switching `FILESYSTEM_DISK` to `public`.
 
 #### Automated
 
-- [x] 1.1 New + existing tests pass: `composer test`
-- [x] 1.2 Classify suite passes: `php artisan test --filter=ClassifyEndpointTest`
-- [x] 1.3 Style clean: `./vendor/bin/pint --test`
+- [x] 1.1 New + existing tests pass: `composer test` — d27e25b
+- [x] 1.2 Classify suite passes: `php artisan test --filter=ClassifyEndpointTest` — d27e25b
+- [x] 1.3 Style clean: `./vendor/bin/pint --test` — d27e25b
 
 #### Manual
 
-- [x] 1.4 `/classify` without `X-App-Key` → `403`
-- [x] 1.5 `/classify` with correct key → `200` + five fields, no DB row
-- [x] 1.6 Dead AI provider yields `504`/`502`, not `500`
+- [x] 1.4 `/classify` without `X-App-Key` → `403` — d27e25b
+- [x] 1.5 `/classify` with correct key → `200` + five fields, no DB row — d27e25b
+- [x] 1.6 Dead AI provider yields `504`/`502`, not `500` — d27e25b
 
 ### Phase 2: Slim POST /garments to persist-only
 
