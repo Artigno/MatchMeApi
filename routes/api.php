@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClassifyController;
 use App\Http\Controllers\Api\GarmentController;
 use App\Http\Controllers\Api\SupabaseController;
 use App\Http\Controllers\Api\UserController;
@@ -8,6 +9,11 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
 Route::get('/up', fn () => response()->json(['status' => 'ok']));
+
+// Unauthenticated AI classification, gated by the shared app key + throttle.
+// Stateless: reads the photo, returns listing fields, persists nothing.
+Route::post('/classify', [ClassifyController::class, 'classify'])
+    ->middleware(['app.key', 'throttle:10,1']);
 
 Route::prefix('auth')->group(function () {
     Route::post('supabase/exchange', [SupabaseController::class, 'exchange'])->middleware('throttle:5,1');

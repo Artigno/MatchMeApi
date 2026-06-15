@@ -43,7 +43,13 @@ return [
     'openrouter' => [
         'api_key' => env('OPENROUTER_API_KEY'),
         'base_url' => env('OPENROUTER_BASE_URL', 'https://openrouter.ai/api/v1'),
-        'model' => env('AI_VISION_MODEL', 'google/gemini-2.0-flash'),
+        'model' => env('AI_VISION_MODEL', 'google/gemini-2.5-flash'),
+    ],
+
+    'app' => [
+        // Shared secret the mobile client sends as the X-App-Key header to reach
+        // the unauthenticated POST /classify endpoint. Blank disables access.
+        'client_key' => env('APP_CLIENT_KEY'),
     ],
 
 ];
