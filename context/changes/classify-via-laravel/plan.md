@@ -454,14 +454,14 @@ switching `FILESYSTEM_DISK` to `public`.
 
 #### Automated
 
-- [ ] 2.1 Full suite passes: `composer test`
-- [ ] 2.2 Garments-store suite passes: `php artisan test --filter=GarmentStoreTest`
-- [ ] 2.3 Style clean: `./vendor/bin/pint --test`
+- [x] 2.1 Full suite passes: `composer test`
+- [x] 2.2 Garments-store suite passes: `php artisan test --filter=GarmentStoreTest`
+- [x] 2.3 Style clean: `./vendor/bin/pint --test`
 
 #### Manual
 
-- [ ] 2.4 Authed `POST /garments` with fields + photo returns persisted `GarmentDto`
-- [ ] 2.5 `GET /garments` lists the new row with `photo_url`
+- [x] 2.4 Authed `POST /garments` with fields + photo returns persisted `GarmentDto`
+- [x] 2.5 `GET /garments` lists the new row with `photo_url`
 
 ### Phase 3: Spec reconciliation — drop brand from PATCH + resolvable photo_url
 

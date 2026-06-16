@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Contracts\GarmentClassifier;
 use App\Http\Controllers\Controller;
 use App\Models\Garment;
 use App\Models\GarmentDeletion;
@@ -16,8 +15,6 @@ use Illuminate\Validation\Rule;
 
 class GarmentController extends Controller
 {
-    public function __construct(private readonly GarmentClassifier $classifier) {}
-
     public function index(Request $request): JsonResponse
     {
         $paginator = Garment::where('user_id', $request->user()->id)
@@ -92,26 +89,22 @@ class GarmentController extends Controller
         return response()->noContent();
     }
 
-    public function classify(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
-        $request->validate([
+        $validated = $request->validate([
+            'category' => ['nullable', 'string', 'max:255'],
+            'brand' => ['nullable', 'string', 'max:255'],
+            'color' => ['nullable', 'string', 'max:255'],
+            'condition' => ['nullable', 'string', Rule::in(Garment::CONDITIONS)],
+            'description' => ['nullable', 'string', 'max:5000'],
             'photo' => ['required', 'image', 'max:10240'],
         ]);
 
-        $file = $request->file('photo');
-        $base64 = base64_encode((string) file_get_contents($file->getRealPath()));
-
-        try {
-            $fields = $this->classifier->classify($base64, $file->getMimeType() ?? 'image/jpeg');
-        } catch (\RuntimeException $e) {
-            return response()->json(['message' => 'Classification timed out, please retry.'], 504);
-        }
-
-        $garment = new Garment($fields);
+        $garment = new Garment(collect($validated)->except('photo')->all());
         $garment->user_id = $request->user()->id;
         $garment->save();
 
-        $garment->addMedia($file)->toMediaCollection('photos');
+        $garment->addMedia($request->file('photo'))->toMediaCollection('photos');
         $garment->refresh();
 
         return response()->json($this->garmentResource($garment));
