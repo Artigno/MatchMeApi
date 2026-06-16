@@ -14,10 +14,10 @@ class GarmentListingCardTest extends TestCase
     private function createGarment(User $user, array $fields = []): Garment
     {
         return Garment::factory()->for($user)->create(array_merge([
-            'category'    => 'top',
-            'brand'       => 'Zara',
-            'color'       => 'blue',
-            'condition'   => 'good',
+            'category' => 'top',
+            'brand' => 'Zara',
+            'color' => 'blue',
+            'condition' => 'good',
             'description' => 'A nice top',
         ], $fields));
     }
@@ -43,11 +43,23 @@ class GarmentListingCardTest extends TestCase
         $user = User::factory()->create();
         $garment = $this->createGarment($user);
 
-        $this->patchJson("/api/garments/{$garment->id}", ['brand' => 'Nike'], ['Authorization' => 'Bearer '.$this->token($user)])
+        $this->patchJson("/api/garments/{$garment->id}", ['category' => 'bottom'], ['Authorization' => 'Bearer '.$this->token($user)])
             ->assertOk()
-            ->assertJsonFragment(['brand' => 'Nike', 'category' => 'top', 'color' => 'blue']);
+            ->assertJsonFragment(['category' => 'bottom', 'brand' => 'Zara', 'color' => 'blue']);
 
-        $this->assertDatabaseHas('garments', ['id' => $garment->id, 'brand' => 'Nike', 'category' => 'top']);
+        $this->assertDatabaseHas('garments', ['id' => $garment->id, 'category' => 'bottom', 'brand' => 'Zara']);
+    }
+
+    public function test_update_ignores_brand(): void
+    {
+        $user = User::factory()->create();
+        $garment = $this->createGarment($user);
+
+        $this->patchJson("/api/garments/{$garment->id}", ['brand' => 'Nike', 'color' => 'red'], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertOk()
+            ->assertJsonFragment(['brand' => 'Zara', 'color' => 'red']);
+
+        $this->assertDatabaseHas('garments', ['id' => $garment->id, 'brand' => 'Zara', 'color' => 'red']);
     }
 
     public function test_show_requires_authentication(): void

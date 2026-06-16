@@ -454,27 +454,27 @@ switching `FILESYSTEM_DISK` to `public`.
 
 #### Automated
 
-- [x] 2.1 Full suite passes: `composer test`
-- [x] 2.2 Garments-store suite passes: `php artisan test --filter=GarmentStoreTest`
-- [x] 2.3 Style clean: `./vendor/bin/pint --test`
+- [x] 2.1 Full suite passes: `composer test` — 5e3abcd
+- [x] 2.2 Garments-store suite passes: `php artisan test --filter=GarmentStoreTest` — 5e3abcd
+- [x] 2.3 Style clean: `./vendor/bin/pint --test` — 5e3abcd
 
 #### Manual
 
-- [x] 2.4 Authed `POST /garments` with fields + photo returns persisted `GarmentDto`
-- [x] 2.5 `GET /garments` lists the new row with `photo_url`
+- [x] 2.4 Authed `POST /garments` with fields + photo returns persisted `GarmentDto` — 5e3abcd
+- [x] 2.5 `GET /garments` lists the new row with `photo_url` — 5e3abcd
 
 ### Phase 3: Spec reconciliation — drop brand from PATCH + resolvable photo_url
 
 #### Automated
 
-- [ ] 3.1 Full suite passes: `composer test`
-- [ ] 3.2 Listing-card suite passes: `php artisan test --filter=GarmentListingCardTest`
-- [ ] 3.3 Style clean: `./vendor/bin/pint --test`
+- [x] 3.1 Full suite passes: `composer test`
+- [x] 3.2 Listing-card suite passes: `php artisan test --filter=GarmentListingCardTest`
+- [x] 3.3 Style clean: `./vendor/bin/pint --test`
 
 #### Manual
 
-- [ ] 3.4 `PATCH /garments/{id}` with `brand` leaves brand unchanged
-- [ ] 3.5 Saved photo opens directly from `photo_url` after `storage:link`
+- [x] 3.4 `PATCH /garments/{id}` with `brand` leaves brand unchanged
+- [x] 3.5 Saved photo opens directly from `photo_url` after `storage:link`
 
 ### Phase 4: openapi.json sync + companion-divergence note
 
