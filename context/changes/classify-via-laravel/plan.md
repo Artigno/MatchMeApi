@@ -480,10 +480,10 @@ switching `FILESYSTEM_DISK` to `public`.
 
 #### Automated
 
-- [x] 4.1 `openapi.json` is valid JSON
-- [x] 4.2 Full suite still green: `composer test`
+- [x] 4.1 `openapi.json` is valid JSON — 14f130e
+- [x] 4.2 Full suite still green: `composer test` — 14f130e
 
 #### Manual
 
-- [x] 4.3 Spec paths/bodies match implemented routes (spot-check)
-- [x] 4.4 Mobile divergence note is clear for the client team
+- [x] 4.3 Spec paths/bodies match implemented routes (spot-check) — 14f130e
+- [x] 4.4 Mobile divergence note is clear for the client team — 14f130e

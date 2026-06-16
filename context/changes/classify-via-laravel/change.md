@@ -1,6 +1,6 @@
 ---
 id: classify-via-laravel
-status: impl_reviewed
+status: implemented
 created: 2026-06-13
 updated: 2026-06-16
 ---
