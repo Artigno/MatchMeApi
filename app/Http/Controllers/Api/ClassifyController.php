@@ -8,6 +8,8 @@ use App\Contracts\GarmentClassifier;
 use App\Exceptions\ClassifierTimeoutException;
 use App\Exceptions\ClassifierUpstreamException;
 use App\Http\Controllers\Controller;
+use Dedoc\Scramble\Attributes\HeaderParameter;
+use Dedoc\Scramble\Attributes\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,6 +21,8 @@ class ClassifyController extends Controller
      * Stateless: read the photo with AI and return the listing fields.
      * Persists nothing — POST /garments owns persistence.
      */
+    #[HeaderParameter('X-App-Key', description: 'Static shared secret gating /classify. Not a Sanctum bearer token.', required: true)]
+    #[Response(403, description: 'Missing or invalid X-App-Key header.')]
     public function classify(Request $request): JsonResponse
     {
         $request->validate([

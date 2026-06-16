@@ -467,23 +467,23 @@ switching `FILESYSTEM_DISK` to `public`.
 
 #### Automated
 
-- [x] 3.1 Full suite passes: `composer test`
-- [x] 3.2 Listing-card suite passes: `php artisan test --filter=GarmentListingCardTest`
-- [x] 3.3 Style clean: `./vendor/bin/pint --test`
+- [x] 3.1 Full suite passes: `composer test` — eaf5ecf
+- [x] 3.2 Listing-card suite passes: `php artisan test --filter=GarmentListingCardTest` — eaf5ecf
+- [x] 3.3 Style clean: `./vendor/bin/pint --test` — eaf5ecf
 
 #### Manual
 
-- [x] 3.4 `PATCH /garments/{id}` with `brand` leaves brand unchanged
-- [x] 3.5 Saved photo opens directly from `photo_url` after `storage:link`
+- [x] 3.4 `PATCH /garments/{id}` with `brand` leaves brand unchanged — eaf5ecf
+- [x] 3.5 Saved photo opens directly from `photo_url` after `storage:link` — eaf5ecf
 
 ### Phase 4: openapi.json sync + companion-divergence note
 
 #### Automated
 
-- [ ] 4.1 `openapi.json` is valid JSON
-- [ ] 4.2 Full suite still green: `composer test`
+- [x] 4.1 `openapi.json` is valid JSON
+- [x] 4.2 Full suite still green: `composer test`
 
 #### Manual
 
-- [ ] 4.3 Spec paths/bodies match implemented routes (spot-check)
-- [ ] 4.4 Mobile divergence note is clear for the client team
+- [x] 4.3 Spec paths/bodies match implemented routes (spot-check)
+- [x] 4.4 Mobile divergence note is clear for the client team
