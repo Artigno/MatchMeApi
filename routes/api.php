@@ -13,7 +13,7 @@ Route::get('/up', fn () => response()->json(['status' => 'ok']));
 // Unauthenticated AI classification, gated by the shared app key + throttle.
 // Stateless: reads the photo, returns listing fields, persists nothing.
 Route::post('/classify', [ClassifyController::class, 'classify'])
-    ->middleware(['app.key', 'throttle:10,1']);
+    ->middleware(['app.key', 'throttle:classify']);
 
 Route::prefix('auth')->group(function () {
     Route::post('supabase/exchange', [SupabaseController::class, 'exchange'])->middleware('throttle:5,1');

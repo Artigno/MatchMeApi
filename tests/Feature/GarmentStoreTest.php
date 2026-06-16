@@ -119,4 +119,16 @@ class GarmentStoreTest extends TestCase
 
         $this->assertSame(0, Garment::count());
     }
+
+    public function test_store_validation_returns_422_without_accept_header(): void
+    {
+        // Raw multipart POST (no Accept: application/json). The force-JSON API
+        // middleware must keep this a 422, not a 302 redirect.
+        $user = User::factory()->create();
+
+        $this->post('/api/garments', [], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertStatus(422);
+
+        $this->assertSame(0, Garment::count());
+    }
 }

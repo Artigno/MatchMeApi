@@ -30,7 +30,13 @@ class ClassifyController extends Controller
         ]);
 
         $file = $request->file('photo');
-        $base64 = base64_encode((string) file_get_contents($file->getRealPath()));
+        $path = $file->getRealPath();
+
+        // Guard the rare edge where the temp upload vanished: never base64 an
+        // empty string and ship junk bytes to the paid AI provider.
+        abort_if($path === false, 422, 'Uploaded photo could not be read.');
+
+        $base64 = base64_encode((string) file_get_contents($path));
 
         try {
             $fields = $this->classifier->classify($base64, $file->getMimeType() ?? 'image/jpeg');

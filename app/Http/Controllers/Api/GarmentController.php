@@ -18,6 +18,7 @@ class GarmentController extends Controller
     public function index(Request $request): JsonResponse
     {
         $paginator = Garment::where('user_id', $request->user()->id)
+            ->with('media')
             ->orderByDesc('created_at')
             ->paginate(20);
 

@@ -14,10 +14,10 @@ class WardrobeCatalogueTest extends TestCase
     private function createGarment(User $user, array $fields = []): Garment
     {
         return Garment::factory()->for($user)->create(array_merge([
-            'category'    => 'top',
-            'brand'       => 'Zara',
-            'color'       => 'blue',
-            'condition'   => 'good',
+            'category' => 'top',
+            'brand' => 'Zara',
+            'color' => 'blue',
+            'condition' => 'good',
             'description' => 'A nice top',
         ], $fields));
     }
