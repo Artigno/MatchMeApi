@@ -1,8 +1,9 @@
 ---
 id: classify-via-laravel
-status: impl_reviewed
+status: archived
 created: 2026-06-13
 updated: 2026-06-16
+archived_at: 2026-06-16T17:41:19Z
 ---
 
 # Backend Changes — Server-side AI Classification
