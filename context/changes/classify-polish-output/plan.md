@@ -282,11 +282,11 @@ by decision; they read fine but will fail re-validation on edit until manually u
 
 #### Automated
 
-- [x] 2.1 `openapi.json` valid JSON
-- [x] 2.2 Polish enum present in openapi.json + implemented-on-api.md (grep)
-- [x] 2.3 Full suite still green: `composer test`
+- [x] 2.1 `openapi.json` valid JSON — f1de135
+- [x] 2.2 Polish enum present in openapi.json + implemented-on-api.md (grep) — f1de135
+- [x] 2.3 Full suite still green: `composer test` — f1de135
 
 #### Manual
 
-- [x] 2.4 Spec condition enum matches Garment::CONDITIONS
-- [x] 2.5 implemented-on-api.md reads correctly, no EN→PL mapping note
+- [x] 2.4 Spec condition enum matches Garment::CONDITIONS — f1de135
+- [x] 2.5 implemented-on-api.md reads correctly, no EN→PL mapping note — f1de135
