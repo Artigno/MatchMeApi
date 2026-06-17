@@ -268,25 +268,25 @@ by decision; they read fine but will fail re-validation on edit until manually u
 
 #### Automated
 
-- [x] 1.1 Full suite passes: `composer test`
-- [x] 1.2 Prompt test passes: `php artisan test --filter=GarmentClassifierPromptTest`
-- [x] 1.3 Style clean: `./vendor/bin/pint --test`
+- [x] 1.1 Full suite passes: `composer test` — d8d434f
+- [x] 1.2 Prompt test passes: `php artisan test --filter=GarmentClassifierPromptTest` — d8d434f
+- [x] 1.3 Style clean: `./vendor/bin/pint --test` — d8d434f
 
 #### Manual
 
-- [x] 1.4 `/classify` returns Polish category/condition/color/description, brand verbatim
-- [x] 1.5 `POST /garments` with Polish condition persists (no 422)
-- [x] 1.6 `PATCH` to Polish condition succeeds; out-of-set → 422
+- [x] 1.4 `/classify` returns Polish category/condition/color/description, brand verbatim — d8d434f
+- [x] 1.5 `POST /garments` with Polish condition persists (no 422) — d8d434f
+- [x] 1.6 `PATCH` to Polish condition succeeds; out-of-set → 422 — d8d434f
 
 ### Phase 2: Sync contract + client doc
 
 #### Automated
 
-- [ ] 2.1 `openapi.json` valid JSON
-- [ ] 2.2 Polish enum present in openapi.json + implemented-on-api.md (grep)
-- [ ] 2.3 Full suite still green: `composer test`
+- [x] 2.1 `openapi.json` valid JSON
+- [x] 2.2 Polish enum present in openapi.json + implemented-on-api.md (grep)
+- [x] 2.3 Full suite still green: `composer test`
 
 #### Manual
 
-- [ ] 2.4 Spec condition enum matches Garment::CONDITIONS
-- [ ] 2.5 implemented-on-api.md reads correctly, no EN→PL mapping note
+- [x] 2.4 Spec condition enum matches Garment::CONDITIONS
+- [x] 2.5 implemented-on-api.md reads correctly, no EN→PL mapping note
