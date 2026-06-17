@@ -13,7 +13,9 @@ class Garment extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, SoftDeletes;
 
-    public const CONDITIONS = ['new', 'like new', 'good', 'fair', 'worn'];
+    // Canonical (Polish) condition values — stored, validated, and AI-returned.
+    // Maps from EN: new→nowy, like new→jak nowy, good→dobry, fair→średni, worn→znoszony.
+    public const CONDITIONS = ['nowy', 'jak nowy', 'dobry', 'średni', 'znoszony'];
 
     protected $fillable = [
         'category',

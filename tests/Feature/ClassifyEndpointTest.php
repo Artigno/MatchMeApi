@@ -38,11 +38,11 @@ class ClassifyEndpointTest extends TestCase
 
         $response->assertOk()
             ->assertExactJson([
-                'category' => 'top',
+                'category' => 'góra',
                 'brand' => 'Zara',
-                'color' => 'blue',
-                'condition' => 'good',
-                'description' => 'A nice blue top in good condition.',
+                'color' => 'niebieski',
+                'condition' => 'dobry',
+                'description' => 'Ładny niebieski top w dobrym stanie.',
             ]);
 
         $this->assertSame(0, Garment::count());

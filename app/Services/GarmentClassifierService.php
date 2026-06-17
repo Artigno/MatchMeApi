@@ -37,7 +37,7 @@ class GarmentClassifierService implements GarmentClassifier
                             ],
                             [
                                 'type' => 'text',
-                                'text' => 'Analyze this garment and return the listing card fields.',
+                                'text' => 'Przeanalizuj to ubranie i zwróć pola karty oferty zgodnie z instrukcją.',
                             ],
                         ],
                     ],
@@ -75,8 +75,8 @@ class GarmentClassifierService implements GarmentClassifier
             'category' => $this->nullableString($data['category'] ?? null),
             'brand' => $this->nullableString($data['brand'] ?? null),
             'color' => $this->nullableString($data['color'] ?? null),
-            'condition' => ($condition !== null && in_array(strtolower($condition), Garment::CONDITIONS, true))
-                ? strtolower($condition)
+            'condition' => ($condition !== null && in_array(mb_strtolower($condition, 'UTF-8'), Garment::CONDITIONS, true))
+                ? mb_strtolower($condition, 'UTF-8')
                 : null,
             'description' => $this->nullableString($data['description'] ?? null),
         ];
@@ -94,15 +94,16 @@ class GarmentClassifierService implements GarmentClassifier
     private function systemPrompt(): string
     {
         return <<<'PROMPT'
-You are a garment listing assistant. Analyze the provided garment photo and return a JSON object with exactly these five fields:
+You are a garment listing assistant for a Polish-speaking marketplace. Analyze the provided garment photo and return a JSON object with exactly these five fields, written IN POLISH (except "brand"):
 
-- "category": one of "top", "bottom", "shoes", "accessory", "outerwear", or null if unclear
-- "brand": the brand name as a string (e.g. "Zara", "Nike"), or null if not clearly visible
-- "color": the primary color as a string (e.g. "blue", "dark green"), or null if unclear
-- "condition": one of "new", "like new", "good", "fair", "worn", or null if unclear
-- "description": a short resale listing description (1–2 sentences), or null if you cannot generate a confident one
+- "category": one of the Polish values "góra", "dół", "buty", "akcesorium", "okrycie wierzchnie", or null if unclear.
+- "brand": the brand name verbatim as printed (e.g. "Zara", "Nike"), or null if not clearly visible. Do NOT translate brand names.
+- "color": the primary color, in Polish (e.g. "granatowy", "ciemnozielony"), or null if unclear.
+- "condition": one of the Polish values "nowy", "jak nowy", "dobry", "średni", "znoszony", or null if unclear.
+- "description": a short resale listing description (1–2 sentences), in Polish, or null if you cannot generate a confident one.
 
 Rules:
+- Every field except "brand" MUST be in Polish. "category" and "condition" MUST be exactly one of the listed Polish values (lowercase) — do not invent other words.
 - Return ONLY a valid JSON object — no markdown, no code fences, no extra text.
 - Return null for any field you cannot determine with high confidence. NEVER guess or fabricate a value.
 PROMPT;

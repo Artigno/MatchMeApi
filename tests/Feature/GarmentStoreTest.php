@@ -32,7 +32,7 @@ class GarmentStoreTest extends TestCase
             'category' => 'top',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'good',
+            'condition' => 'dobry',
             'description' => 'A blue cotton top.',
             'photo' => UploadedFile::fake()->image('garment.jpg'),
         ], ['Authorization' => 'Bearer '.$this->token($user)]);
@@ -43,7 +43,7 @@ class GarmentStoreTest extends TestCase
                 'category' => 'top',
                 'brand' => 'Zara',
                 'color' => 'blue',
-                'condition' => 'good',
+                'condition' => 'dobry',
             ]);
 
         $this->assertNotEmpty($response->json('photo_url'));

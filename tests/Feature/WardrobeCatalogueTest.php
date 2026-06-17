@@ -17,7 +17,7 @@ class WardrobeCatalogueTest extends TestCase
             'category' => 'top',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'good',
+            'condition' => 'dobry',
             'description' => 'A nice top',
         ], $fields));
     }
