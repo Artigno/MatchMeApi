@@ -1,8 +1,9 @@
 ---
 id: classify-polish-output
-status: impl_reviewed
+status: archived
 created: 2026-06-17
-updated: 2026-06-17
+updated: 2026-06-19
+archived_at: 2026-06-19T08:54:26Z
 ---
 
 # Classify output in Polish
