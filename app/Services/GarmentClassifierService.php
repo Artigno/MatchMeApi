@@ -69,15 +69,11 @@ class GarmentClassifierService implements GarmentClassifier
 
     private function extractFields(array $data): array
     {
-        $condition = $this->nullableString($data['condition'] ?? null);
-
         return [
-            'category' => $this->nullableString($data['category'] ?? null),
+            'category' => $this->enumString($data['category'] ?? null, Garment::CATEGORIES),
             'brand' => $this->nullableString($data['brand'] ?? null),
             'color' => $this->nullableString($data['color'] ?? null),
-            'condition' => ($condition !== null && in_array(mb_strtolower($condition, 'UTF-8'), Garment::CONDITIONS, true))
-                ? mb_strtolower($condition, 'UTF-8')
-                : null,
+            'condition' => $this->enumString($data['condition'] ?? null, Garment::CONDITIONS),
             'description' => $this->nullableString($data['description'] ?? null),
         ];
     }
@@ -89,6 +85,26 @@ class GarmentClassifierService implements GarmentClassifier
         }
 
         return is_string($value) ? $value : null;
+    }
+
+    /**
+     * Normalize a string field against a Polish allow-list. Trims and lowercases
+     * before the strict comparison so padded/mixed-case AI output still matches;
+     * anything outside the set collapses to null (never plausible-but-wrong).
+     *
+     * @param  list<string>  $allowed
+     */
+    private function enumString(mixed $value, array $allowed): ?string
+    {
+        $value = $this->nullableString($value);
+
+        if ($value === null) {
+            return null;
+        }
+
+        $normalized = mb_strtolower(trim($value), 'UTF-8');
+
+        return in_array($normalized, $allowed, true) ? $normalized : null;
     }
 
     private function systemPrompt(): string

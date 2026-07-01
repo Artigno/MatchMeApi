@@ -17,6 +17,10 @@ class Garment extends Model implements HasMedia
     // Maps from EN: new→nowy, like new→jak nowy, good→dobry, fair→średni, worn→znoszony.
     public const CONDITIONS = ['nowy', 'jak nowy', 'dobry', 'średni', 'znoszony'];
 
+    // Canonical (Polish) category values — the allow-list the AI classifier must map to.
+    // Mirrors the system prompt in GarmentClassifierService; anything outside → null.
+    public const CATEGORIES = ['góra', 'dół', 'buty', 'akcesorium', 'okrycie wierzchnie'];
+
     protected $fillable = [
         'category',
         'brand',
