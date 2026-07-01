@@ -215,27 +215,27 @@ Reflect the completed phase in the durable test-plan artifact so the orchestrato
 
 #### Automated
 
-- [x] 1.1 Pint clean: `./vendor/bin/pint --test`
-- [x] 1.2 Full suite green (no regressions): `composer test`
+- [x] 1.1 Pint clean: `./vendor/bin/pint --test` — 4392687
+- [x] 1.2 Full suite green (no regressions): `composer test` — 4392687
 
 #### Manual
 
-- [x] 1.3 `Garment::CATEGORIES` values match the system prompt's category list verbatim
-- [x] 1.4 Diff touches only `Garment.php` + `GarmentClassifierService.php`
+- [x] 1.3 `Garment::CATEGORIES` values match the system prompt's category list verbatim — 4392687
+- [x] 1.4 Diff touches only `Garment.php` + `GarmentClassifierService.php` — 4392687
 
 ### Phase 2: Safety-net unit tests
 
 #### Automated
 
-- [ ] 2.1 New suite passes and hits the real service: `php artisan test --filter=GarmentClassifierSafetyNet`
-- [ ] 2.2 Full suite green: `composer test`
-- [ ] 2.3 Pint clean: `./vendor/bin/pint --test`
+- [x] 2.1 New suite passes and hits the real service: `php artisan test --filter=GarmentClassifierSafetyNet`
+- [x] 2.2 Full suite green: `composer test`
+- [x] 2.3 Pint clean: `./vendor/bin/pint --test`
 
 #### Manual
 
-- [ ] 2.4 New file contains no `FakeGarmentClassifier` binding — drives the real parse path
-- [ ] 2.5 Every assertion checks against the PRD allow-list / null rule, not parser output
-- [ ] 2.6 Reverting Phase 1 fixes makes shapes 9b and 11 fail — tests guard the defects
+- [x] 2.4 New file contains no `FakeGarmentClassifier` binding — drives the real parse path
+- [x] 2.5 Every assertion checks against the PRD allow-list / null rule, not parser output
+- [x] 2.6 Reverting Phase 1 fixes makes shapes 9b and 11 fail — tests guard the defects
 
 ### Phase 3: Test-plan wiring
 
