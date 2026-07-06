@@ -22,6 +22,7 @@ class Garment extends Model implements HasMedia
     public const CATEGORIES = ['góra', 'dół', 'buty', 'akcesorium', 'okrycie wierzchnie'];
 
     protected $fillable = [
+        'client_ref',
         'category',
         'brand',
         'color',

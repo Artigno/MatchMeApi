@@ -86,11 +86,12 @@ a guessed value.
 |---|---|---|
 | GET | `/user` | `{id, email, name, created_at}`. |
 | GET | `/ping` | `{status:"ok", user_id}`. |
-| POST | `/garments` | Persist-only (no AI). See below. |
+| POST | `/garments` | Persist-only (no AI). Idempotent via `client_ref`. See below. |
 | GET | `/garments` | Paginated list of the caller's garments. |
 | GET | `/garments/{id}` | One garment. Not yours → `404`. |
-| PATCH | `/garments/{id}` | Edit fields. See below. |
-| DELETE | `/garments/{id}` | Hard-delete + audit snapshot → `204`. |
+| PATCH | `/garments/{id}` | Edit fields (incl. `brand`). Optional optimistic-lock header. See below. |
+| POST | `/garments/{id}/photo` | Replace the photo. See below. |
+| DELETE | `/garments/{id}` | Hard-delete + audit snapshot → `204`. **Idempotent**: re-deleting a garment you already deleted → `204` again (not `404`). Someone else's / never-existed id → `404`. |
 
 Missing/expired access token → `401`. Another user's garment → `404` (existence not leaked).
 
@@ -100,21 +101,39 @@ Classify first via `/classify`, then send the returned fields + photo here.
 
 - **Body**: `multipart/form-data`:
   - `photo` (required, image, max 10 MB)
+  - `client_ref` (optional string, max 255) — client-supplied idempotency key, unique per
+    user. Send your local garment id. If a garment with the same `(user, client_ref)`
+    already exists, the API returns **the existing `GarmentDto`** (200) and creates
+    nothing — safe to retry a create whose response was lost. Without `client_ref`,
+    every POST creates a new row.
   - `category`, `brand`, `color`, `description` (nullable string; max 255 / description 5000)
   - `condition` (nullable, one of the condition set)
-- **200**: full `GarmentDto`. Invalid `condition` / bad photo → `422`.
+- **200**: full `GarmentDto` (includes `client_ref`). Invalid `condition` / bad photo → `422`.
 
 ### PATCH /garments/{id}
 
-- **Body** (`application/json`): any of `category`, `color`, `condition`, `description`.
-- **`brand` is NOT editable** — sent values are ignored. `photo` is not editable here.
+- **Body** (`application/json`): any of `category`, `brand`, `color`, `condition`, `description`.
+- **`brand` IS editable** (nullable string, max 255 — same validation as create). `photo` is
+  not editable here — use `POST /garments/{id}/photo`.
 - `condition` ∈ the condition set. `200` → updated `GarmentDto`; invalid → `422`.
+- **Optional conflict detection**: send `If-Unmodified-Since: <updated_at you last saw>`
+  (ISO 8601 or HTTP-date). If the server copy was modified after that timestamp →
+  `409 { "message": "…", "garment": GarmentDto }` (current server state, nothing written).
+  Unparseable header value → `400`. Without the header, last-write-wins (as before).
+
+### POST /garments/{id}/photo — replace the photo
+
+- **Body**: `multipart/form-data`, field `photo` (required, image, max 10 MB) — same rules
+  as create.
+- **200**: updated `GarmentDto` with the new `photo_url`. The old file is deleted; `updated_at`
+  is bumped. Not yours → `404`; bad photo → `422`.
 
 ## GarmentDto
 
 ```json
 {
   "id": 1,
+  "client_ref": "local-abc-123",
   "category": "góra",
   "brand": "Zara",
   "color": "niebieski",
@@ -143,7 +162,13 @@ The values from step 1 are posted verbatim in step 3 — same Polish strings, no
 All errors: `{"message": "…"}`. Validation errors add `errors`:
 `{ "message": "…", "errors": { "photo": ["The photo field is required."] } }`.
 
-Status codes: `200` · `204` · `401` · `403` · `404` · `409` · `422` · `429` · `502` · `504`.
+Status codes: `200` · `204` · `400` · `401` · `403` · `404` · `409` · `422` · `429` · `502` · `504`.
+
+## Vocabulary (for the client's hard-coded lists)
+
+`category` is a free string server-side (max **255**); the Polish category set above is the
+AI classifier's allow-list, not a validation rule on `/garments`. No `/categories` endpoint
+is planned — keep the client constant. `condition` IS validated against the condition set.
 
 ## Not yet implemented
 

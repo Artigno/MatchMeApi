@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Garment;
 use App\Models\GarmentDeletion;
+use Carbon\Carbon;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -54,8 +56,27 @@ class GarmentController extends Controller
             abort(404);
         }
 
+        // Optimistic concurrency: the client may send the updated_at it last saw.
+        // A newer server copy means another device wrote in between → 409 with the
+        // current resource so the client can reconcile instead of overwriting blind.
+        if ($request->hasHeader('If-Unmodified-Since')) {
+            try {
+                $since = Carbon::parse($request->header('If-Unmodified-Since'));
+            } catch (\Throwable) {
+                abort(400, 'Invalid If-Unmodified-Since header.');
+            }
+
+            if ($garment->updated_at !== null && $garment->updated_at->startOfSecond()->greaterThan($since)) {
+                return response()->json([
+                    'message' => 'Garment was modified after the given timestamp.',
+                    'garment' => $this->garmentResource($garment),
+                ], 409);
+            }
+        }
+
         $validated = $request->validate([
             'category' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'brand' => ['sometimes', 'nullable', 'string', 'max:255'],
             'color' => ['sometimes', 'nullable', 'string', 'max:255'],
             'condition' => ['sometimes', 'nullable', 'string', Rule::in(Garment::CONDITIONS)],
             'description' => ['sometimes', 'nullable', 'string', 'max:5000'],
@@ -67,8 +88,23 @@ class GarmentController extends Controller
         return response()->json($this->garmentResource($garment));
     }
 
-    public function destroy(Request $request, Garment $garment): Response
+    public function destroy(Request $request, int $garmentId): Response
     {
+        $garment = Garment::find($garmentId);
+
+        if ($garment === null) {
+            // Idempotent delete: the audit tombstone proves this caller already
+            // deleted the row, so a retry (client never saw the first 204) succeeds
+            // instead of looping on 404 forever.
+            $alreadyDeletedByCaller = GarmentDeletion::where('user_id', $request->user()->id)
+                ->where('garment_id', $garmentId)
+                ->exists();
+
+            abort_unless($alreadyDeletedByCaller, 404);
+
+            return response()->noContent();
+        }
+
         if ($garment->user_id !== $request->user()->id) {
             abort(404);
         }
@@ -92,6 +128,7 @@ class GarmentController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'client_ref' => ['nullable', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
             'color' => ['nullable', 'string', 'max:255'],
@@ -100,11 +137,55 @@ class GarmentController extends Controller
             'photo' => ['required', 'image', 'max:10240'],
         ]);
 
+        // Idempotent create: client_ref is the mobile app's local garment id. If a
+        // previous POST persisted the row but the response was lost, the retry must
+        // return the existing row instead of creating a duplicate with a second photo.
+        $clientRef = $validated['client_ref'] ?? null;
+
+        if ($clientRef !== null) {
+            $existing = Garment::where('user_id', $request->user()->id)
+                ->where('client_ref', $clientRef)
+                ->first();
+
+            if ($existing !== null) {
+                return response()->json($this->garmentResource($existing));
+            }
+        }
+
         $garment = new Garment(collect($validated)->except('photo')->all());
         $garment->user_id = $request->user()->id;
-        $garment->save();
+
+        try {
+            $garment->save();
+        } catch (UniqueConstraintViolationException) {
+            // Concurrent retry won the race on (user_id, client_ref) — serve its row.
+            $existing = Garment::where('user_id', $request->user()->id)
+                ->where('client_ref', $clientRef)
+                ->firstOrFail();
+
+            return response()->json($this->garmentResource($existing));
+        }
 
         $garment->addMedia($request->file('photo'))->toMediaCollection('photos');
+        $garment->refresh();
+
+        return response()->json($this->garmentResource($garment));
+    }
+
+    public function replacePhoto(Request $request, Garment $garment): JsonResponse
+    {
+        if ($garment->user_id !== $request->user()->id) {
+            abort(404);
+        }
+
+        $request->validate([
+            'photo' => ['required', 'image', 'max:10240'],
+        ]);
+
+        // The 'photos' collection is singleFile — adding replaces the previous
+        // media row and deletes the old file from storage.
+        $garment->addMedia($request->file('photo'))->toMediaCollection('photos');
+        $garment->touch();
         $garment->refresh();
 
         return response()->json($this->garmentResource($garment));
@@ -114,6 +195,7 @@ class GarmentController extends Controller
     {
         return [
             'id' => $garment->id,
+            'client_ref' => $garment->client_ref,
             'category' => $garment->category,
             'brand' => $garment->brand,
             'color' => $garment->color,

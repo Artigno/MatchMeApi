@@ -32,5 +32,8 @@ Route::middleware(['auth:sanctum', CheckForAnyAbility::class.':access'])->group(
     Route::get('/garments', [GarmentController::class, 'index']);
     Route::get('/garments/{garment}', [GarmentController::class, 'show']);
     Route::patch('/garments/{garment}', [GarmentController::class, 'update']);
-    Route::delete('/garments/{garment}', [GarmentController::class, 'destroy']);
+    Route::post('/garments/{garment}/photo', [GarmentController::class, 'replacePhoto']);
+    // No model binding: destroy resolves the id itself so an already-deleted
+    // row can answer 204 (idempotent delete) instead of the binding's 404.
+    Route::delete('/garments/{garmentId}', [GarmentController::class, 'destroy'])->whereNumber('garmentId');
 });

@@ -49,7 +49,7 @@ class GarmentStoreTest extends TestCase
         $this->assertNotEmpty($response->json('photo_url'));
 
         $this->assertDatabaseHas('garments', [
-            'user_id' => $user->id,
+            'user_id' => $user->getKey(),
             'category' => 'top',
             'brand' => 'Zara',
         ]);
@@ -73,6 +73,83 @@ class GarmentStoreTest extends TestCase
             ]);
 
         $this->assertSame(1, Garment::count());
+    }
+
+    public function test_store_persists_client_ref_and_returns_it(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->postJson('/api/garments', [
+            'client_ref' => 'local-abc-123',
+            'category' => 'top',
+            'photo' => UploadedFile::fake()->image('garment.jpg'),
+        ], ['Authorization' => 'Bearer '.$this->token($user)]);
+
+        $response->assertOk()
+            ->assertJsonFragment(['client_ref' => 'local-abc-123']);
+
+        $this->assertDatabaseHas('garments', [
+            'user_id' => $user->getKey(),
+            'client_ref' => 'local-abc-123',
+        ]);
+    }
+
+    public function test_store_with_duplicate_client_ref_returns_existing_row(): void
+    {
+        // Idempotent create: a retried POST (response lost) must not duplicate the row.
+        $user = User::factory()->create();
+        $auth = ['Authorization' => 'Bearer '.$this->token($user)];
+
+        $first = $this->postJson('/api/garments', [
+            'client_ref' => 'local-abc-123',
+            'category' => 'top',
+            'brand' => 'Zara',
+            'photo' => UploadedFile::fake()->image('garment.jpg'),
+        ], $auth);
+
+        $second = $this->postJson('/api/garments', [
+            'client_ref' => 'local-abc-123',
+            'category' => 'bottom',
+            'photo' => UploadedFile::fake()->image('retry.jpg'),
+        ], $auth);
+
+        $second->assertOk()
+            ->assertJsonFragment([
+                'id' => $first->json('id'),
+                'category' => 'top',
+                'brand' => 'Zara',
+            ]);
+
+        $this->assertSame(1, Garment::count());
+    }
+
+    public function test_store_allows_same_client_ref_for_different_users(): void
+    {
+        foreach (User::factory()->count(2)->create() as $user) {
+            // Drop the guard's cached user so each request authenticates as its own user.
+            $this->app->make('auth')->forgetGuards();
+
+            $this->postJson('/api/garments', [
+                'client_ref' => 'local-abc-123',
+                'photo' => UploadedFile::fake()->image('garment.jpg'),
+            ], ['Authorization' => 'Bearer '.$this->token($user)])->assertOk();
+        }
+
+        $this->assertSame(2, Garment::count());
+    }
+
+    public function test_store_without_client_ref_always_creates(): void
+    {
+        $user = User::factory()->create();
+        $auth = ['Authorization' => 'Bearer '.$this->token($user)];
+
+        foreach (range(1, 2) as $i) {
+            $this->postJson('/api/garments', [
+                'photo' => UploadedFile::fake()->image("garment-{$i}.jpg"),
+            ], $auth)->assertOk();
+        }
+
+        $this->assertSame(2, Garment::count());
     }
 
     public function test_store_requires_authentication(): void
