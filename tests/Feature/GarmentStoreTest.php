@@ -29,10 +29,10 @@ class GarmentStoreTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->postJson('/api/garments', [
-            'category' => 'top',
+            'category' => 'tops',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'A blue cotton top.',
             'photo' => UploadedFile::fake()->image('garment.jpg'),
         ], ['Authorization' => 'Bearer '.$this->token($user)]);
@@ -40,17 +40,17 @@ class GarmentStoreTest extends TestCase
         $response->assertOk()
             ->assertJsonStructure(['id', 'category', 'brand', 'color', 'condition', 'description', 'photo_url', 'created_at'])
             ->assertJsonFragment([
-                'category' => 'top',
+                'category' => 'tops',
                 'brand' => 'Zara',
                 'color' => 'blue',
-                'condition' => 'dobry',
+                'condition' => 'good',
             ]);
 
         $this->assertNotEmpty($response->json('photo_url'));
 
         $this->assertDatabaseHas('garments', [
             'user_id' => $user->getKey(),
-            'category' => 'top',
+            'category' => 'tops',
             'brand' => 'Zara',
         ]);
     }
@@ -81,7 +81,7 @@ class GarmentStoreTest extends TestCase
 
         $response = $this->postJson('/api/garments', [
             'client_ref' => 'local-abc-123',
-            'category' => 'top',
+            'category' => 'tops',
             'photo' => UploadedFile::fake()->image('garment.jpg'),
         ], ['Authorization' => 'Bearer '.$this->token($user)]);
 
@@ -102,21 +102,21 @@ class GarmentStoreTest extends TestCase
 
         $first = $this->postJson('/api/garments', [
             'client_ref' => 'local-abc-123',
-            'category' => 'top',
+            'category' => 'tops',
             'brand' => 'Zara',
             'photo' => UploadedFile::fake()->image('garment.jpg'),
         ], $auth);
 
         $second = $this->postJson('/api/garments', [
             'client_ref' => 'local-abc-123',
-            'category' => 'bottom',
+            'category' => 'bottoms',
             'photo' => UploadedFile::fake()->image('retry.jpg'),
         ], $auth);
 
         $second->assertOk()
             ->assertJsonFragment([
                 'id' => $first->json('id'),
-                'category' => 'top',
+                'category' => 'tops',
                 'brand' => 'Zara',
             ]);
 
@@ -180,6 +180,20 @@ class GarmentStoreTest extends TestCase
         ], ['Authorization' => 'Bearer '.$this->token($user)])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['condition']);
+
+        $this->assertSame(0, Garment::count());
+    }
+
+    public function test_store_rejects_invalid_category(): void
+    {
+        $user = User::factory()->create();
+
+        $this->postJson('/api/garments', [
+            'category' => 'not-a-category',
+            'photo' => UploadedFile::fake()->image('garment.jpg'),
+        ], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['category']);
 
         $this->assertSame(0, Garment::count());
     }

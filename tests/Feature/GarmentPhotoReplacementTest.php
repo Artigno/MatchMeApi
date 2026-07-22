@@ -25,7 +25,7 @@ class GarmentPhotoReplacementTest extends TestCase
             'category' => 'top',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'A nice top',
         ]);
 
@@ -81,6 +81,21 @@ class GarmentPhotoReplacementTest extends TestCase
         ], ['Authorization' => 'Bearer '.$this->token($user)])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['photo']);
+    }
+
+    public function test_replace_photo_validation_returns_422_without_accept_header(): void
+    {
+        // Raw multipart POST (no Accept: application/json). The force-JSON API
+        // middleware must keep this a 422, not a 302 redirect.
+        $user = User::factory()->create();
+        $garment = $this->createGarmentWithPhoto($user);
+        $originalMediaId = $garment->getFirstMedia('photos')->getKey();
+
+        $this->post("/api/garments/{$garment->getKey()}/photo", [], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertStatus(422);
+
+        $garment->refresh();
+        $this->assertSame($originalMediaId, $garment->getFirstMedia('photos')->getKey());
     }
 
     public function test_replace_photo_requires_authentication(): void

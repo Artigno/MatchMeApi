@@ -17,7 +17,7 @@ class GarmentListingCardTest extends TestCase
             'category' => 'top',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'A nice top',
         ], $fields));
     }
@@ -43,11 +43,11 @@ class GarmentListingCardTest extends TestCase
         $user = User::factory()->create();
         $garment = $this->createGarment($user);
 
-        $this->patchJson("/api/garments/{$garment->getKey()}", ['category' => 'bottom'], ['Authorization' => 'Bearer '.$this->token($user)])
+        $this->patchJson("/api/garments/{$garment->getKey()}", ['category' => 'bottoms'], ['Authorization' => 'Bearer '.$this->token($user)])
             ->assertOk()
-            ->assertJsonFragment(['category' => 'bottom', 'brand' => 'Zara', 'color' => 'blue']);
+            ->assertJsonFragment(['category' => 'bottoms', 'brand' => 'Zara', 'color' => 'blue']);
 
-        $this->assertDatabaseHas('garments', ['id' => $garment->getKey(), 'category' => 'bottom', 'brand' => 'Zara']);
+        $this->assertDatabaseHas('garments', ['id' => $garment->getKey(), 'category' => 'bottoms', 'brand' => 'Zara']);
     }
 
     public function test_update_accepts_brand(): void
@@ -72,6 +72,31 @@ class GarmentListingCardTest extends TestCase
             ->assertJsonFragment(['brand' => null]);
 
         $this->assertDatabaseHas('garments', ['id' => $garment->getKey(), 'brand' => null]);
+    }
+
+    public function test_update_rejects_invalid_category(): void
+    {
+        $user = User::factory()->create();
+        $garment = $this->createGarment($user);
+
+        $this->patchJson("/api/garments/{$garment->getKey()}", ['category' => 'not-a-category'], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['category']);
+
+        $this->assertDatabaseHas('garments', ['id' => $garment->getKey(), 'category' => 'top']);
+    }
+
+    public function test_update_validation_returns_422_without_accept_header(): void
+    {
+        // Raw multipart PATCH (no Accept: application/json). The force-JSON API
+        // middleware must keep this a 422, not a 302 redirect.
+        $user = User::factory()->create();
+        $garment = $this->createGarment($user);
+
+        $this->patch("/api/garments/{$garment->getKey()}", ['condition' => 'pristine'], ['Authorization' => 'Bearer '.$this->token($user)])
+            ->assertStatus(422);
+
+        $this->assertDatabaseHas('garments', ['id' => $garment->getKey(), 'condition' => 'good']);
     }
 
     public function test_update_with_current_if_unmodified_since_succeeds(): void

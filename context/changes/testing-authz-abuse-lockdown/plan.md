@@ -245,27 +245,27 @@ Global-bucket test issues ~101 in-process requests with a faked classifier — e
 
 #### Automated
 
-- [x] 1.1 New tests pass: `php artisan test --filter=ClassifyThrottleTest`
-- [x] 1.2 Full suite green: `composer test`
-- [x] 1.3 Style: `./vendor/bin/pint --test`
+- [x] 1.1 New tests pass: `php artisan test --filter=ClassifyThrottleTest` — 99d5f24
+- [x] 1.2 Full suite green: `composer test` — 99d5f24
+- [x] 1.3 Style: `./vendor/bin/pint --test` — 99d5f24
 
 #### Manual
 
-- [x] 1.4 Bite check: middleware order swap fails wrong-key-budget test
-- [x] 1.5 Bite check: throttle removal fails both 429 tests
+- [x] 1.4 Bite check: middleware order swap fails wrong-key-budget test — 99d5f24
+- [x] 1.5 Bite check: throttle removal fails both 429 tests — 99d5f24
 
 ### Phase 2: Validation parity + category enum
 
 #### Automated
 
-- [ ] 2.1 Targeted tests pass: GarmentStoreTest / GarmentListingCardTest / GarmentPhotoReplacementTest filters
-- [ ] 2.2 Full suite green: `composer test`
-- [ ] 2.3 Style: `./vendor/bin/pint --test`
+- [x] 2.1 Targeted tests pass: GarmentStoreTest / GarmentListingCardTest / GarmentPhotoReplacementTest filters
+- [x] 2.2 Full suite green: `composer test`
+- [x] 2.3 Style: `./vendor/bin/pint --test`
 
 #### Manual
 
-- [ ] 2.4 Bite check: ForceJsonResponse removal fails new no-Accept tests
-- [ ] 2.5 Bite check: category Rule::in removal fails new category test
+- [x] 2.4 Bite check: ForceJsonResponse removal fails new no-Accept tests
+- [x] 2.5 Bite check: category Rule::in removal fails new category test
 
 ### Phase 3: IDOR matrix audit
 

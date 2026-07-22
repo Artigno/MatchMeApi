@@ -75,7 +75,7 @@ class GarmentController extends Controller
         }
 
         $validated = $request->validate([
-            'category' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'category' => ['sometimes', 'nullable', 'string', Rule::in(Garment::CATEGORIES)],
             'brand' => ['sometimes', 'nullable', 'string', 'max:255'],
             'color' => ['sometimes', 'nullable', 'string', 'max:255'],
             'condition' => ['sometimes', 'nullable', 'string', Rule::in(Garment::CONDITIONS)],
@@ -129,7 +129,7 @@ class GarmentController extends Controller
     {
         $validated = $request->validate([
             'client_ref' => ['nullable', 'string', 'max:255'],
-            'category' => ['nullable', 'string', 'max:255'],
+            'category' => ['nullable', 'string', Rule::in(Garment::CATEGORIES)],
             'brand' => ['nullable', 'string', 'max:255'],
             'color' => ['nullable', 'string', 'max:255'],
             'condition' => ['nullable', 'string', Rule::in(Garment::CONDITIONS)],
