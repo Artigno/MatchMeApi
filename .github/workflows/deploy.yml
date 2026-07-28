@@ -131,8 +131,11 @@ jobs:
       - name: Build prod spec
         working-directory: src-prod
         # Install WITH dev deps — dedoc/scramble is require-dev and provides scramble:export.
+        # Both vars passed so the spec lists every deployed stage (Production entry is
+        # dropped by config/scramble.php until mirror-match-prod exists and the var is set).
         env:
           SCRAMBLE_SERVER_URL: ${{ vars.SCRAMBLE_SERVER_URL }}
+          SCRAMBLE_SERVER_URL_DEV: ${{ vars.SCRAMBLE_SERVER_URL_DEV }}
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate
@@ -153,7 +156,8 @@ jobs:
       - name: Build dev spec
         working-directory: src-dev
         env:
-          SCRAMBLE_SERVER_URL: ${{ vars.SCRAMBLE_SERVER_URL_DEV }}
+          SCRAMBLE_SERVER_URL: ${{ vars.SCRAMBLE_SERVER_URL }}
+          SCRAMBLE_SERVER_URL_DEV: ${{ vars.SCRAMBLE_SERVER_URL_DEV }}
         run: |
           composer install --no-interaction --prefer-dist
           cp .env.example .env && php artisan key:generate

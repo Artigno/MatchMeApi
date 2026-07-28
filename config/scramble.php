@@ -93,11 +93,14 @@ return [
      * ],
      * ```
      */
-    'servers' => [
+    'servers' => array_filter([
         // Paths in the spec are stripped of the `api` prefix, so the server URL must
         // carry the `/api` base (e.g. https://<gw>.execute-api.eu-central-1.amazonaws.com/api).
-        'Production' => env('SCRAMBLE_SERVER_URL') ?: 'https://api.example.invalid/api',
-    ],
+        // Prod entry only appears once mirror-match-prod is deployed and SCRAMBLE_SERVER_URL is set —
+        // no prod stack exists yet, so we don't ship a fake prod URL into the spec.
+        'Production' => env('SCRAMBLE_SERVER_URL'),
+        'Development' => env('SCRAMBLE_SERVER_URL_DEV'),
+    ]),
 
     /**
      * Determines how Scramble stores the descriptions of enum cases.
