@@ -29,10 +29,10 @@ class FakeGarmentClassifier implements GarmentClassifier
         }
 
         return $this->result ?? [
-            'category' => 'góra',
+            'category' => 'tops',
             'brand' => 'Zara',
             'color' => 'niebieski',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'Ładny niebieski top w dobrym stanie.',
         ];
     }

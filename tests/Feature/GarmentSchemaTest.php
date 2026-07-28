@@ -21,18 +21,18 @@ class GarmentSchemaTest extends TestCase
             'description' => null,
         ]);
 
-        $this->assertNotNull($garment->id);
+        $this->assertNotNull($garment->getKey());
         $this->assertNull($garment->category);
     }
 
     public function test_deleting_user_cascades_to_garments(): void
     {
         $user = User::factory()->create();
-        Garment::factory()->count(3)->create(['user_id' => $user->id]);
+        Garment::factory()->count(3)->create(['user_id' => $user->getKey()]);
 
         $user->delete();
 
-        $this->assertSame(0, Garment::withTrashed()->where('user_id', $user->id)->count());
+        $this->assertSame(0, Garment::withTrashed()->where('user_id', $user->getKey())->count());
     }
 
     public function test_soft_delete_sets_deleted_at(): void
@@ -41,7 +41,7 @@ class GarmentSchemaTest extends TestCase
         $garment->delete();
 
         $this->assertNotNull($garment->deleted_at);
-        $this->assertNull(Garment::find($garment->id));
-        $this->assertNotNull(Garment::withTrashed()->find($garment->id));
+        $this->assertNull(Garment::find($garment->getKey()));
+        $this->assertNotNull(Garment::withTrashed()->find($garment->getKey()));
     }
 }

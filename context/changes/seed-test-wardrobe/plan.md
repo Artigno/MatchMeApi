@@ -243,13 +243,13 @@ Do NOT run against production data with a real user's email (fixed fake email gu
 
 #### Automated
 
-- [x] 1.1 Fixture regeneration works: `php database/seeders/fixtures/generate.php` exits 0
-- [x] 1.2 12 fixture JPEGs exist: `ls database/seeders/fixtures/*.jpg | wc -l` → 12
-- [x] 1.3 Dataset compiles: `php -l app/Console/Commands/SeedWardrobe.php`
+- [x] 1.1 Fixture regeneration works: `php database/seeders/fixtures/generate.php` exits 0 — 5201452
+- [x] 1.2 12 fixture JPEGs exist: `ls database/seeders/fixtures/*.jpg | wc -l` → 12 — 5201452
+- [x] 1.3 Dataset compiles: `php -l app/Console/Commands/SeedWardrobe.php` — 5201452
 
 #### Manual
 
-- [ ] 1.4 Fixtures visually distinct, labels readable, colors match rows
+- [x] 1.4 Fixtures visually distinct, labels readable, colors match rows — 5201452
 
 ### Phase 2: Seed command + feature test
 

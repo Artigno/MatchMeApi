@@ -227,22 +227,22 @@ Reflect the completed phase in the durable test-plan artifact so the orchestrato
 
 #### Automated
 
-- [x] 2.1 New suite passes and hits the real service: `php artisan test --filter=GarmentClassifierSafetyNet`
-- [x] 2.2 Full suite green: `composer test`
-- [x] 2.3 Pint clean: `./vendor/bin/pint --test`
+- [x] 2.1 New suite passes and hits the real service: `php artisan test --filter=GarmentClassifierSafetyNet` — d31a913
+- [x] 2.2 Full suite green: `composer test` — d31a913
+- [x] 2.3 Pint clean: `./vendor/bin/pint --test` — d31a913
 
 #### Manual
 
-- [x] 2.4 New file contains no `FakeGarmentClassifier` binding — drives the real parse path
-- [x] 2.5 Every assertion checks against the PRD allow-list / null rule, not parser output
-- [x] 2.6 Reverting Phase 1 fixes makes shapes 9b and 11 fail — tests guard the defects
+- [x] 2.4 New file contains no `FakeGarmentClassifier` binding — drives the real parse path — d31a913
+- [x] 2.5 Every assertion checks against the PRD allow-list / null rule, not parser output — d31a913
+- [x] 2.6 Reverting Phase 1 fixes makes shapes 9b and 11 fail — tests guard the defects — d31a913
 
 ### Phase 3: Test-plan wiring
 
 #### Automated
 
-- [ ] 3.1 Markdown intact: `git diff --stat context/foundation/test-plan.md` shows only intended edits
+- [x] 3.1 Markdown intact: `git diff --stat context/foundation/test-plan.md` shows only intended edits
 
 #### Manual
 
-- [ ] 3.2 §3 Phase 1 reads `complete`; §6.1 no longer says "TBD"; §5 classifier row accurate
+- [x] 3.2 §3 Phase 1 reads `complete`; §6.1 no longer says "TBD"; §5 classifier row accurate — verified 2026-07-16

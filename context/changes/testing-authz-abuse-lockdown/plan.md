@@ -258,14 +258,14 @@ Global-bucket test issues ~101 in-process requests with a faked classifier — e
 
 #### Automated
 
-- [x] 2.1 Targeted tests pass: GarmentStoreTest / GarmentListingCardTest / GarmentPhotoReplacementTest filters
-- [x] 2.2 Full suite green: `composer test`
-- [x] 2.3 Style: `./vendor/bin/pint --test`
+- [x] 2.1 Targeted tests pass: GarmentStoreTest / GarmentListingCardTest / GarmentPhotoReplacementTest filters — 98b9b81
+- [x] 2.2 Full suite green: `composer test` — 98b9b81
+- [x] 2.3 Style: `./vendor/bin/pint --test` — 98b9b81
 
 #### Manual
 
-- [x] 2.4 Bite check: ForceJsonResponse removal fails new no-Accept tests
-- [x] 2.5 Bite check: category Rule::in removal fails new category test
+- [x] 2.4 Bite check: ForceJsonResponse removal fails new no-Accept tests — 98b9b81
+- [x] 2.5 Bite check: category Rule::in removal fails new category test — 98b9b81
 
 ### Phase 3: IDOR matrix audit
 

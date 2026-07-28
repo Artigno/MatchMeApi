@@ -38,10 +38,10 @@ class ClassifyEndpointTest extends TestCase
 
         $response->assertOk()
             ->assertExactJson([
-                'category' => 'góra',
+                'category' => 'tops',
                 'brand' => 'Zara',
                 'color' => 'niebieski',
-                'condition' => 'dobry',
+                'condition' => 'good',
                 'description' => 'Ładny niebieski top w dobrym stanie.',
             ]);
 

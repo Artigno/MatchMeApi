@@ -112,6 +112,7 @@ class GarmentPhotoReplacementTest extends TestCase
     {
         $owner = User::factory()->create();
         $garment = $this->createGarmentWithPhoto($owner);
+        $originalMediaId = $garment->getFirstMedia('photos')->getKey();
 
         $other = User::factory()->create();
 
@@ -119,5 +120,11 @@ class GarmentPhotoReplacementTest extends TestCase
             'photo' => UploadedFile::fake()->image('retake.jpg'),
         ], ['Authorization' => 'Bearer '.$this->token($other)])
             ->assertNotFound();
+
+        // The 404 must be a hard stop: a non-owner's attempt must not swap the
+        // owner's photo before the ownership check fails.
+        $garment->refresh();
+        $this->assertCount(1, $garment->getMedia('photos'));
+        $this->assertSame($originalMediaId, $garment->getFirstMedia('photos')->getKey());
     }
 }

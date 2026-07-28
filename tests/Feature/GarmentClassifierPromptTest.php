@@ -25,22 +25,22 @@ class GarmentClassifierPromptTest extends TestCase
         $this->assertStringContainsStringIgnoringCase('IN POLISH', $prompt);
     }
 
-    public function test_prompt_lists_polish_condition_values(): void
+    public function test_prompt_lists_canonical_condition_values(): void
     {
         $prompt = $this->systemPrompt();
 
-        // Every canonical (Polish) condition value must appear verbatim so the model
+        // Every canonical condition value must appear verbatim so the model
         // returns values that pass Garment::CONDITIONS normalization.
         foreach (Garment::CONDITIONS as $value) {
             $this->assertStringContainsString('"'.$value.'"', $prompt);
         }
     }
 
-    public function test_prompt_lists_polish_category_values(): void
+    public function test_prompt_lists_canonical_category_values(): void
     {
         $prompt = $this->systemPrompt();
 
-        foreach (['góra', 'dół', 'buty', 'akcesorium', 'okrycie wierzchnie'] as $value) {
+        foreach (Garment::CATEGORIES as $value) {
             $this->assertStringContainsString('"'.$value.'"', $prompt);
         }
     }

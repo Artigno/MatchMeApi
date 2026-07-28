@@ -57,18 +57,18 @@ class GarmentClassifierSafetyNetTest extends TestCase
     public function test_valid_fields_survive(): void
     {
         $this->fakeContent(json_encode([
-            'category' => 'buty',
+            'category' => 'footwear',
             'brand' => 'Nike',
             'color' => 'granatowy',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'Wygodne buty w dobrym stanie.',
         ]));
 
         $this->assertSame([
-            'category' => 'buty',
+            'category' => 'footwear',
             'brand' => 'Nike',
             'color' => 'granatowy',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'Wygodne buty w dobrym stanie.',
         ], $this->classify());
     }
@@ -97,7 +97,7 @@ class GarmentClassifierSafetyNetTest extends TestCase
             'category' => 123,
             'brand' => ['Nike', 'Adidas'],
             'color' => 42,
-            'condition' => ['dobry'],
+            'condition' => ['good'],
             'description' => (object) ['x' => 1],
         ]));
 
@@ -123,18 +123,18 @@ class GarmentClassifierSafetyNetTest extends TestCase
 
     public function test_mixed_case_condition_is_lowercased(): void
     {
-        $this->fakeContent(json_encode(['condition' => 'Dobry']));
+        $this->fakeContent(json_encode(['condition' => 'Good']));
 
-        $this->assertSame('dobry', $this->classify()['condition']);
+        $this->assertSame('good', $this->classify()['condition']);
     }
 
     // --- Shape 9b: condition padded with whitespace → trimmed value (Phase 1 fix) ---
 
     public function test_whitespace_padded_condition_is_recovered(): void
     {
-        $this->fakeContent(json_encode(['condition' => ' dobry ']));
+        $this->fakeContent(json_encode(['condition' => ' good ']));
 
-        $this->assertSame('dobry', $this->classify()['condition']);
+        $this->assertSame('good', $this->classify()['condition']);
     }
 
     // --- Shape 10: empty string / literal "null" → null ---
@@ -170,9 +170,9 @@ class GarmentClassifierSafetyNetTest extends TestCase
 
     public function test_valid_category_survives(): void
     {
-        $this->fakeContent(json_encode(['category' => 'buty']));
+        $this->fakeContent(json_encode(['category' => 'footwear']));
 
-        $this->assertSame('buty', $this->classify()['category']);
+        $this->assertSame('footwear', $this->classify()['category']);
     }
 
     // --- Shapes 1–5: transport/parse failures raise typed exceptions at the service boundary ---

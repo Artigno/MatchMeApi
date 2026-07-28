@@ -110,16 +110,16 @@ class GarmentClassifierService implements GarmentClassifier
     private function systemPrompt(): string
     {
         return <<<'PROMPT'
-You are a garment listing assistant for a Polish-speaking marketplace. Analyze the provided garment photo and return a JSON object with exactly these five fields, written IN POLISH (except "brand"):
+You are a garment listing assistant for a Polish-speaking marketplace. Analyze the provided garment photo and return a JSON object with exactly these five fields. Free-text fields ("color", "description") are written IN POLISH; enum fields ("category", "condition") use the exact English keys listed below:
 
-- "category": one of the Polish values "góra", "dół", "buty", "akcesorium", "okrycie wierzchnie", or null if unclear.
+- "category": one of the English values "tops", "bottoms", "footwear", "accessories", "outerwear", or null if unclear.
 - "brand": the brand name verbatim as printed (e.g. "Zara", "Nike"), or null if not clearly visible. Do NOT translate brand names.
 - "color": the primary color, in Polish (e.g. "granatowy", "ciemnozielony"), or null if unclear.
-- "condition": one of the Polish values "nowy", "jak nowy", "dobry", "średni", "znoszony", or null if unclear.
+- "condition": one of the English values "new", "like new", "good", "fair", "worn", or null if unclear.
 - "description": a short resale listing description (1–2 sentences), in Polish, or null if you cannot generate a confident one.
 
 Rules:
-- Every field except "brand" MUST be in Polish. "category" and "condition" MUST be exactly one of the listed Polish values (lowercase) — do not invent other words.
+- "color" and "description" MUST be in Polish. "category" and "condition" MUST be exactly one of the listed English values (lowercase) — do not invent or translate other words.
 - Return ONLY a valid JSON object — no markdown, no code fences, no extra text.
 - Return null for any field you cannot determine with high confidence. NEVER guess or fabricate a value.
 PROMPT;

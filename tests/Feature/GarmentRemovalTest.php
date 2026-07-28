@@ -26,7 +26,7 @@ class GarmentRemovalTest extends TestCase
             'category' => 'top',
             'brand' => 'Zara',
             'color' => 'blue',
-            'condition' => 'dobry',
+            'condition' => 'good',
             'description' => 'A nice top',
         ], $fields));
     }
