@@ -8,6 +8,7 @@ use App\Contracts\SupabaseJwtVerifier;
 use App\Http\Controllers\Api\Concerns\IssuesTokenPairs;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,7 @@ class SupabaseController extends Controller
 
                 return response()->json($this->issueTokenPair($user), 200);
             });
-        } catch (\Illuminate\Database\QueryException) {
+        } catch (QueryException) {
             return response()->json(['message' => 'Email already in use.'], 409);
         }
     }

@@ -50,7 +50,7 @@ class SupabaseExchangeTest extends TestCase
 
         $response->assertOk();
 
-        $this->assertSame($existing->id, User::where('supabase_id', 'uuid-existing')->sole()->id);
+        $this->assertSame($existing->getKey(), User::where('supabase_id', 'uuid-existing')->sole()->getKey());
         $this->assertDatabaseCount('users', 1);
     }
 
